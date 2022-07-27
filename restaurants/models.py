@@ -1,15 +1,17 @@
 from django.db import models
 
 
-class Event(models.Model):
+class Restaurant(models.Model):
+    restaurant_options = (('fd', 'Fine Dining'), ('cd', 'Casual Dining'), ('cc', 'Contemporary Casual'),
+                          ('fs', 'Family Style'), ('fc', 'Fast Casual'), ('ff', 'Fast Food'), ('c', 'Cafe'),
+                          ('b', 'Buffet'), ('ft', 'Food Truck'))
+
     name = models.CharField(max_length=50)
+    type = models.CharField(max_length=6, choices=restaurant_options)
     description = models.TextField()
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
     # photo = models.ImageField(upload_to='images/')
-    user_is_organiser = models.BooleanField(default=False)
     website_url = models.CharField(max_length=225, null=True, blank=True)
-    contact_num = models.CharField(max_length=20, null=True, blank=True)
+    contact_num = models.CharField(max_length=20)
     address = models.CharField(max_length=50, null=True, blank=True)
     long = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
     lat = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)

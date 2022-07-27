@@ -1,13 +1,14 @@
 from django.db import models
 
 
-class Event(models.Model):
+class ThingsToDo(models.Model):
+    category_options = (('entertainment', 'Entertainment'), ('cinema', 'Cinema'), ('sport', 'Sport'),
+                        ('attractions', 'Attractions'), ('museums', 'Museums'), ('shopping', 'Shopping'))
+
     name = models.CharField(max_length=50)
+    type = models.CharField(max_length=13, choices=category_options)
     description = models.TextField()
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
     # photo = models.ImageField(upload_to='images/')
-    user_is_organiser = models.BooleanField(default=False)
     website_url = models.CharField(max_length=225, null=True, blank=True)
     contact_num = models.CharField(max_length=20, null=True, blank=True)
     address = models.CharField(max_length=50, null=True, blank=True)
