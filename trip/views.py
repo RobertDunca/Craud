@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
@@ -6,7 +7,7 @@ from trip.forms import EventForm
 from trip.models import Event, Restaurant
 
 
-class EventCreateView(CreateView):
+class EventCreateView(LoginRequiredMixin, CreateView):
     template_name = 'events/create_event.html'
     model = Event
     form_class = EventForm
@@ -19,7 +20,7 @@ class EventListView(ListView):
     context_object_name = 'all_events'
 
 
-class RestaurantCreateView(CreateView):
+class RestaurantCreateView(PermissionRequiredMixin, CreateView):
     template_name = 'restaurants/create_restaurant.html'
     model = Restaurant
     form_class = EventForm
@@ -32,7 +33,7 @@ class RestaurantListView(ListView):
     context_object_name = 'all_restaurants'
 
 
-class ThingToDoCreateView(CreateView):
+class ThingToDoCreateView(PermissionRequiredMixin, CreateView):
     template_name = 'things_to_do/create_ttd.html'
     model = Restaurant
     form_class = EventForm

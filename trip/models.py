@@ -1,4 +1,18 @@
+from django.contrib.auth.models import User
 from django.db import models
+
+
+class Review(models.Model):
+    rating = models.IntegerField()
+    comment = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'Review by {self.user.first_name}'
 
 
 class Event(models.Model):
@@ -6,13 +20,15 @@ class Event(models.Model):
     description = models.TextField()
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
-    # photo = models.ImageField(upload_to='images/')
+    photo = models.ImageField(upload_to='static/images/events/')
     user_is_organiser = models.BooleanField(default=False)
     website_url = models.CharField(max_length=225, null=True, blank=True)
     contact_num = models.CharField(max_length=20, null=True, blank=True)
     address = models.CharField(max_length=50, null=True, blank=True)
     long = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
     lat = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    reviews = models.ManyToManyField(Review, blank=True)
 
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -30,12 +46,13 @@ class Restaurant(models.Model):
     name = models.CharField(max_length=50)
     type = models.CharField(max_length=6, choices=restaurant_options)
     description = models.TextField()
-    # photo = models.ImageField(upload_to='images/')
+    photo = models.ImageField(upload_to='static/images/restaurants/')
     website_url = models.CharField(max_length=225, null=True, blank=True)
     contact_num = models.CharField(max_length=20)
-    address = models.CharField(max_length=50, null=True, blank=True)
+    address = models.CharField(max_length=50)
     long = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
     lat = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
+    reviews = models.ManyToManyField(Review, blank=True)
 
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -53,12 +70,13 @@ class ThingToDo(models.Model):
     name = models.CharField(max_length=50)
     type = models.CharField(max_length=13, choices=category_options)
     description = models.TextField()
-    # photo = models.ImageField(upload_to='images/')
+    photo = models.ImageField(upload_to='static/images/things_to_do/')
     website_url = models.CharField(max_length=225, null=True, blank=True)
     contact_num = models.CharField(max_length=20, null=True, blank=True)
     address = models.CharField(max_length=50, null=True, blank=True)
     long = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
     lat = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
+    reviews = models.ManyToManyField(Review, blank=True)
 
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -66,3 +84,6 @@ class ThingToDo(models.Model):
 
     def __str__(self):
         return f'{self.name}'
+
+
+

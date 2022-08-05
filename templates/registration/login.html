@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %} Login {% endblock %}
+{% block content %}
+    <div class="bg-image container lgc "
+         style="background-image: url('/static/images/background/lorena-tintea-u450hw1m_f0-unsplash.jpg')"><br><br>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card shadow-lg p-3 mb-5 bg-body rounded">
+                    <div class="container text-center">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="card-body">
+                                {{ form.as_p }}
+                            </div>
+                            <button class="btn" type="submit"><strong>Log In</strong></button>
+                            {#                            <button type="submit" class="btn btn-primary">Log in</button>#}
+                        </form><br>
+                        <div class="row">
+                            <div class="col-8">
+                                <a href="#" style="text-decoration: none; color: black">
+                                    <small>Don't have an account? Sign up for free.</small>
+                                </a>
+                            </div>
+                            <div class="col-4">
+                                <a href="{% url 'password_reset' %}" style="text-decoration: none; color: black">
+                                    <small>Reset password</small>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

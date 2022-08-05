@@ -8,7 +8,7 @@ class EventForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = ['name', 'description', 'start_date', 'end_date',
-                  'is_organiser', 'website_url', 'address', 'long', 'lat', 'contact_num']
+                  'user_is_organiser', 'website_url', 'address', 'long', 'lat', 'contact_num']
         widgets = {
             'name': TextInput(attrs={'placeholder': 'Please enter event name', 'class': 'form-control'}),
             'description': Textarea(attrs={'placeholder': 'Please enter event description', 'class': 'form-control'}),

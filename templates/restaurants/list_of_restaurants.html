@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Restaurants{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+
+        {% for restaurant in all_restaurants %}
+
+            {% if forloop.counter|divisibleby:2 %}
+                <div class="container mydiv lste">
+                    <div class="row bcg">
+                        <div class="card border-0 bcg">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="{% static restaurant.photo %}" class="img-fluid ph" alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ restaurant.name }}</h5>
+                                        <p class="card-text">{{ restaurant.description }}</p>
+                                        <p class="card-text"><small class="text-muted">
+                                            {{ restaurant.address }}
+                                        </small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="container lste">
+                    <div class="row">
+                        <div class="card border-0">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="{% static restaurant.photo %}" class="img-fluid ph" alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ restaurant.name }}</h5>
+                                        <p class="card-text">{{ restaurant.description }}</p>
+                                        <p class="card-text"><small class="text-muted">
+                                            {{ restaurant.address }}
+                                        </small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+
+    </div>
+
+{% endblock %}
