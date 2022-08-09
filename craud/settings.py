@@ -133,12 +133,13 @@ LOGOUT_REDIRECT_URL = '/login/'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR), 'static')
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-EMAIL_HOST = 'mail.horiascurtu.ro'
-EMAIL_HOST_USER = 'ro26@horiascurtu.ro'
-EMAIL_HOST_PASSWORD = 'Django1234!'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+# EMAIL_HOST = 'mail.horiascurtu.ro'
+EMAIL_HOST_USER = 'admin@admin.com'
+# EMAIL_HOST_PASSWORD = 'Django1234!'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
 
 
