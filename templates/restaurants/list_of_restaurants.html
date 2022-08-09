@@ -3,8 +3,35 @@
 
 {% block title %}Restaurants{% endblock %}
 {% block content %}
-    <div class="container-fluid">
+    <div class="container">
+        <button class="btn" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Search restaurant
+        </button>
 
+        <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
+             aria-labelledby="offcanvasWithBothOptionsLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Search restaurant</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <form method="get">
+                    <div class="card border-0">
+                        <div class="card-body">
+                            {% for field in restaurant_filter.form %}
+                                <div class="mb-3">
+                                    <label for="exampleFormControlInput1" class="form-label">{{ field.label }}:</label>
+                                    {{ field }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
         {% for restaurant in all_restaurants %}
 
             {% if forloop.counter|divisibleby:2 %}

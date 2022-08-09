@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView
 
+from trip.filters import EventFilter, RestaurantFilter
 from trip.forms import EventForm, ReviewForm
 from trip.models import Event, Restaurant, Review
 
@@ -42,6 +43,15 @@ class EventListView(ListView):
     model = Event
     context_object_name = 'all_events'
 
+    def get_context_data(self, **kwargs):
+        data = super(EventListView, self).get_context_data()
+        events = Event.objects.all()
+        event_filter = EventFilter(self.request.GET, queryset=events)
+        data['all_events'] = event_filter.qs
+        data['event_filter'] = event_filter
+
+        return data
+
 
 class EventDetailView(DetailView):
     template_name = 'events/event_details.html'
@@ -64,6 +74,15 @@ class RestaurantListView(ListView):
     template_name = 'restaurants/list_of_restaurants.html'
     model = Restaurant
     context_object_name = 'all_restaurants'
+
+    def get_context_data(self, **kwargs):
+        data = super(RestaurantListView, self).get_context_data()
+        restaurants = Restaurant.objects.all()
+        restaurant_filter = RestaurantFilter(self.request.GET, queryset=restaurants)
+        data['all_restaurants'] = restaurant_filter.qs
+        data['restaurant_filter'] = restaurant_filter
+
+        return data
 
 
 class ThingToDoCreateView(PermissionRequiredMixin, CreateView):
