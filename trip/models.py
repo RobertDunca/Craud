@@ -1,10 +1,13 @@
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+
+from userextend.models import User
 
 
 class Review(models.Model):
-    rating = models.IntegerField()
-    comment = models.TextField()
+    rating = models.IntegerField(default=1, validators=[MaxValueValidator(5), MinValueValidator(1)])
+    comment = models.TextField(blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     active = models.BooleanField(default=True)
@@ -37,6 +40,10 @@ class Event(models.Model):
     def __str__(self):
         return f'{self.name}'
 
+    def average_rating(self):
+        ratings = [r.rating for r in self.reviews.all()]
+        return 0 if len(ratings) == 0 else sum(ratings)/len(ratings)
+
 
 class Restaurant(models.Model):
     restaurant_options = (('fd', 'Fine Dining'), ('cd', 'Casual Dining'), ('cc', 'Contemporary Casual'),
@@ -48,7 +55,7 @@ class Restaurant(models.Model):
     description = models.TextField()
     photo = models.ImageField(upload_to='static/images/restaurants/')
     website_url = models.CharField(max_length=225, null=True, blank=True)
-    contact_num = models.CharField(max_length=20)
+    contact_num = models.CharField(max_length=20, blank=True)
     address = models.CharField(max_length=50)
     long = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
     lat = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)

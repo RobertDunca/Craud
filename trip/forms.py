@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import TextInput, DateTimeInput, Textarea, NumberInput, Select
 
-from trip.models import Event, Restaurant, ThingToDo
+from trip.models import Event, Restaurant, ThingToDo, Review
 
 
 class EventForm(forms.ModelForm):
@@ -67,3 +67,14 @@ class ThingToDoForm(forms.ModelForm):
             'lat': NumberInput(attrs={'placeholder': 'Please enter latitude', 'class': 'form-control',
                                       'required': False})
             }
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['rating', 'comment']
+        widgets = {
+            'rating': NumberInput(attrs={'class': 'form-control', 'min': '1', 'max': '5'}),
+            'comment': Textarea(attrs={'placeholder': 'Please enter a comment',
+                                       'class': 'form-control', 'required': False}),
+        }

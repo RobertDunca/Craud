@@ -5,12 +5,12 @@ from django.views.generic import CreateView
 
 from craud.settings import EMAIL_HOST_USER
 from userextend.forms import UserExtendForm
-from userextend.models import UserExtend
+from userextend.models import User
 
 
 class UserExtendCreateView(CreateView):
     template_name = 'userextend/create_user.html'
-    model = UserExtend
+    model = User
     form_class = UserExtendForm
     success_url = reverse_lazy('home')
 

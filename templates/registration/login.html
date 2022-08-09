@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% block title %} Login {% endblock %}
 {% block content %}
-    <div class="bg-image container lgc "
-         style="background-image: url('/static/images/background/lorena-tintea-u450hw1m_f0-unsplash.jpg')"><br><br>
+    <div class="container lgc"
+         style="background-image: url('/static/images/background/lorena-tintea-u450hw1m_f0-unsplash.jpg'); background-repeat: no-repeat;
+background-size: cover;"><br><br>
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="card shadow-lg p-3 mb-5 bg-body rounded">
@@ -14,15 +15,16 @@
                             </div>
                             <button class="btn" type="submit"><strong>Log In</strong></button>
                             {#                            <button type="submit" class="btn btn-primary">Log in</button>#}
-                        </form><br>
+                        </form>
+                        <br>
                         <div class="row">
                             <div class="col-8">
-                                <a href="#" style="text-decoration: none; color: black">
+                                <a href="{% url 'create_user' %}" class="link">
                                     <small>Don't have an account? Sign up for free.</small>
                                 </a>
                             </div>
                             <div class="col-4">
-                                <a href="{% url 'password_reset' %}" style="text-decoration: none; color: black">
+                                <a href="{% url 'password_reset' %}" class="link">
                                     <small>Reset password</small>
                                 </a>
                             </div>

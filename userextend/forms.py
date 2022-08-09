@@ -1,12 +1,12 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import TextInput, EmailInput
 
-from userextend.models import UserExtend
+from userextend.models import User
 
 
 class UserExtendForm(UserCreationForm):
     class Meta:
-        model = UserExtend
+        model = User
         fields = [
             'first_name', 'last_name', 'username', 'email'
         ]
