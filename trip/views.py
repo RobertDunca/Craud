@@ -1,12 +1,27 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-# from django.shortcuts import render
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic.list import MultipleObjectMixin
 
 from trip.filters import EventFilter, RestaurantFilter
 from trip.forms import EventForm, ReviewForm
 from trip.models import Event, Restaurant, Review
+
+
+class FilteredListView(ListView):
+    filter_class = None
+    filtered_set = None
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filtered_set = self.filter_class(self.request.GET, queryset=queryset)
+        return self.filtered_set.qs.distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = self.filtered_set
+        return context
 
 
 class ReviewCreateView(LoginRequiredMixin, CreateView):
@@ -70,19 +85,37 @@ class RestaurantCreateView(PermissionRequiredMixin, CreateView):
     success_url = reverse_lazy('create_new_restaurant')
 
 
-class RestaurantListView(ListView):
+class RestaurantListView(FilteredListView, MultipleObjectMixin):
     template_name = 'restaurants/list_of_restaurants.html'
+    paginate_by = 5
     model = Restaurant
+    filter_class = RestaurantFilter
     context_object_name = 'all_restaurants'
 
-    def get_context_data(self, **kwargs):
-        data = super(RestaurantListView, self).get_context_data()
-        restaurants = Restaurant.objects.all()
-        restaurant_filter = RestaurantFilter(self.request.GET, queryset=restaurants)
-        data['all_restaurants'] = restaurant_filter.qs
-        data['restaurant_filter'] = restaurant_filter
-
-        return data
+    # def get_context_data(self, **kwargs):
+    #     data = super(RestaurantListView, self).get_context_data()
+    #     restaurants = Restaurant.objects.all()
+    #     restaurant_filter = RestaurantFilter(self.request.GET, queryset=restaurants)
+    #     restaurants = list(restaurants)
+    #     restaurants = list(filter(lambda restaurant: restaurant.average_rating() > 3, restaurants))
+    #     restaurants.sort(key=lambda restaurant: restaurant.average_rating(), reverse=True)
+    #     data['all_restaurants'] = restaurant_filter.qs
+    #     data['restaurant_filter'] = restaurant_filter
+    #
+    #     return data
+    #
+    # def get_queryset(self):
+    #     filtered_qs = filters.RestaurantFilter(self.request.GET, queryset=Restaurant.objects.all()).qs
+    #     paginator = Paginator(filtered_qs, 5)
+    #     page = self.request.GET.get('page')
+    #     try:
+    #         response = paginator.page(page)
+    #     except PageNotAnInteger:
+    #         response = paginator.page(1)
+    #     except EmptyPage:
+    #         response = paginator.page(paginator.num_pages)
+    #
+    #     return response
 
 
 class ThingToDoCreateView(PermissionRequiredMixin, CreateView):

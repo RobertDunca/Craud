@@ -8,15 +8,91 @@
         <div class="row">
             <div class="col">
                 <h3>avg rating {{ event.average_rating }}</h3>
-                <form method="post" action="{%  url 'create_review' %}">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <input type="hidden" name="review_model" value="event">
-                    <input type="hidden" name="id" value="{{ event.id }}">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </form>
+            </div>
+            <div class="row">
+                <div class="card border-0">
+                    <div class="card-header" style="background-color: white">
+                        <div class="col-md-1 offset-md-1">
 
-                Review: {% for review in event.reviews.all %}{{ review }}{% endfor %}
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="card border-0" style="width: 40rem;">
+                                <div class="card-body">
+                                    <form method="post" action="{% url 'create_review' %}">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                {% csrf_token %}
+                                                {% for field in form %}
+                                                    <div class="container">
+                                                        <div class="fieldWrapper">
+                                                            {% if field.name == 'rating' %}
+                                                                <div class="row">
+                                                                    <div class="col" style="display: inline">
+                                                                        {{ field.errors }}
+                                                                        <label class="form-label border-0"
+                                                                               style="padding-right: 5px">{{ field.label_tag }}</label>
+                                                                        {{ field }}
+                                                                    </div>
+                                                                </div>
+                                                            {% elif field.name == 'comment' %}
+                                                                <div class="row" style="padding-top: 10px">
+                                                                    <div class="col">
+                                                                        {{ field.errors }}
+                                                                        <a class="link" style="color: black"
+                                                                           data-bs-toggle="collapse"
+                                                                           href="#collapseComment" role="button"
+                                                                           aria-expanded="false"
+                                                                           aria-controls="collapseExample">
+                                                                            Add a {{ field.name }}:
+                                                                        </a>
+                                                                        <div class="collapse" id="collapseComment">
+                                                                            {{ field }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="hidden" name="review_model" value="event">
+                                                <input type="hidden" name="id" value="{{ event.id }}">
+                                                <button type="submit" class="btn"><strong>Post</strong></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="card border-0">
+                                <div class="card-header">
+                                    <h5>Reviews:</h5>
+                                </div>
+                                <div class="card-body">
+                                    {% for review in event.reviews.all %}
+                                        <div class="container">
+                                            <div class="row">
+                                                @{{ review.user.username }}
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    {{ review.rating }} -
+                                                    {% if review.comment %}
+                                                        {{ review.comment }}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

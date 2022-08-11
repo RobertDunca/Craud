@@ -3,6 +3,15 @@
 
 {% block title %}Restaurants{% endblock %}
 {% block content %}
+    <div class="dropdown">
+        <button class="btn border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Filter by
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">All</a></li>
+            <li><a class="dropdown-item" href="#">Rating</a></li>
+        </ul>
+    </div>
     <div class="container">
         <button class="btn" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Search restaurant
@@ -18,9 +27,9 @@
                 <form method="get">
                     <div class="card border-0">
                         <div class="card-body">
-                            {% for field in restaurant_filter.form %}
+                            {% for field in filter.form %}
                                 <div class="mb-3">
-                                    <label for="exampleFormControlInput1" class="form-label">{{ field.label }}:</label>
+                                    <label class="form-label">{{ field.label_tag }}</label>
                                     {{ field }}
                                 </div>
                             {% endfor %}
@@ -32,7 +41,7 @@
                 </form>
             </div>
         </div>
-        {% for restaurant in all_restaurants %}
+        {% for restaurant in page_obj %}
 
             {% if forloop.counter|divisibleby:2 %}
                 <div class="container mydiv lste">
@@ -78,7 +87,18 @@
                 </div>
             {% endif %}
         {% endfor %}
-
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
     </div>
 
 {% endblock %}

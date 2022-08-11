@@ -68,6 +68,10 @@ class Restaurant(models.Model):
     def __str__(self):
         return f'{self.name}'
 
+    def average_rating(self):
+        ratings = [r.rating for r in self.reviews.all()]
+        return 0 if len(ratings) == 0 else sum(ratings)/len(ratings)
+
 
 class ThingToDo(models.Model):
     category_options = (('entertainment', 'Entertainment'), ('cinema', 'Cinema'), ('sport', 'Sport'),

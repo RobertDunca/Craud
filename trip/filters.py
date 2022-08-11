@@ -3,6 +3,7 @@ import django_filters
 
 
 class EventFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr='icontains')
 
     class Meta:
         model = Event
@@ -14,6 +15,7 @@ class EventFilter(django_filters.FilterSet):
 
 
 class RestaurantFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr='icontains')
 
     class Meta:
         model = Restaurant
@@ -23,3 +25,4 @@ class RestaurantFilter(django_filters.FilterSet):
         super(RestaurantFilter, self).__init__(*args, **kwargs)
         self.filters['name'].field.widget.attrs.update({'class': 'form-control', 'placeholder': 'Search restaurant'})
         self.filters['type'].field.widget.attrs.update({'class': 'form-select'})
+
