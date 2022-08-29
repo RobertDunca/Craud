@@ -116,45 +116,24 @@ class RestaurantListView(ListView, MultipleObjectMixin):
         restaurants = self.get_queryset()
         restaurant_filter = RestaurantFilter(self.request.GET, queryset=restaurants)
         restaurants = list(restaurants)
+
         min_rating = int(self.request.GET.get('min_rating', 1))
-        print(min_rating)
-        # print(len(restaurants))
-        restaurants = list(filter(lambda restaurant: restaurant.average_rating() >= min_rating, restaurants))
-        # print(len(restaurants))
-        for rest in restaurants:
-            print(rest.average_rating())
-        restaurants.sort(key=lambda restaurant: restaurant.average_rating(), reverse=True)
-        # # self.get_paginator()
-        # # restaurants = Restaurant.objects.all()
-        # restaurants = list(restaurants)
-        min_rating = int(self.request.GET.get('min_rating', 1))
+
+        restaurants = filter_sort_restaurants(restaurants, min_rating)
         paginator = self.get_paginator(restaurants, self.paginate_by)
         restaurants = paginator.page(self.request.GET.get('page', 1)).object_list
-        # print(min_rating)
-        # # print(len(restaurants))
-        # restaurants = list(filter(lambda restaurant: restaurant.average_rating() >= min_rating, restaurants))
-        # # print(len(restaurants))
-        # for rest in restaurants:
-        #     print(rest.average_rating())
-        # restaurants.sort(key=lambda restaurant: restaurant.average_rating(), reverse=True)
+
         data['min_rating'] = min_rating
         data['all_restaurants'] = restaurants
         data['restaurant_filter'] = restaurant_filter
 
         return data
-    #
-    # def get_queryset(self):
-    #     filtered_qs = filters.RestaurantFilter(self.request.GET, queryset=Restaurant.objects.all()).qs
-    #     paginator = Paginator(filtered_qs, 5)
-    #     page = self.request.GET.get('page')
-    #     try:
-    #         response = paginator.page(page)
-    #     except PageNotAnInteger:
-    #         response = paginator.page(1)
-    #     except EmptyPage:
-    #         response = paginator.page(paginator.num_pages)
-    #
-    #     return response
+
+
+def filter_sort_restaurants(restaurants, min_rating=1):
+    restaurants = list(filter(lambda restaurant: restaurant.average_rating() >= min_rating, restaurants))
+    restaurants.sort(key=lambda restaurant: restaurant.average_rating(), reverse=True)
+    return restaurants
 
 
 class RestaurantDetailView(DetailView):
