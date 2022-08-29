@@ -70,7 +70,7 @@ class Restaurant(models.Model):
 
     def average_rating(self):
         ratings = [r.rating for r in self.reviews.all()]
-        return 0 if len(ratings) == 0 else sum(ratings)/len(ratings)
+        return 1 if len(ratings) == 0 else sum(ratings)/len(ratings)
 
 
 class ThingToDo(models.Model):

@@ -5,11 +5,12 @@
 {% block content %}
     <div class="dropdown">
         <button class="btn border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Filter by
+            Order by
         </button>
         <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#">All</a></li>
             <li><a class="dropdown-item" href="#">Rating</a></li>
+            <li><input type="button" value="Rating"></li>
         </ul>
     </div>
     <div class="container">
@@ -27,12 +28,15 @@
                 <form method="get">
                     <div class="card border-0">
                         <div class="card-body">
-                            {% for field in filter.form %}
+                            {% for field in restaurant_filter.form %}
                                 <div class="mb-3">
                                     <label class="form-label">{{ field.label_tag }}</label>
                                     {{ field }}
                                 </div>
                             {% endfor %}
+                            <label>
+                                <input type="number" min="1" max="5" value="{{ min_rating }}" name="min_rating">
+                            </label>
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn">Search</button>
@@ -41,7 +45,7 @@
                 </form>
             </div>
         </div>
-        {% for restaurant in page_obj %}
+        {% for restaurant in all_restaurants %}
 
             {% if forloop.counter|divisibleby:2 %}
                 <div class="container mydiv lste">
@@ -53,7 +57,8 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ restaurant.name }}</h5>
+                                        <a href="{% url 'restaurant_details' restaurant.id %}" class="link"><h5 style="color: black">{{ restaurant.name }}</h5></a>
+                                        <p>{{ restaurant.average_rating }}</p>
                                         <p class="card-text">{{ restaurant.description }}</p>
                                         <p class="card-text"><small class="text-muted">
                                             {{ restaurant.address }}
@@ -74,7 +79,8 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ restaurant.name }}</h5>
+                                        <a href="{% url 'restaurant_details' restaurant.id %}" class="link"><h5 style="color: black">{{ restaurant.name }}</h5></a>
+                                        <p>{{ restaurant.average_rating }}</p>
                                         <p class="card-text">{{ restaurant.description }}</p>
                                         <p class="card-text"><small class="text-muted">
                                             {{ restaurant.address }}

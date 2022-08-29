@@ -74,7 +74,7 @@ class ReviewForm(forms.ModelForm):
         model = Review
         fields = ['rating', 'comment']
         widgets = {
-            'rating': NumberInput(attrs={'min': '1', 'max': '5'}),
+            'rating': NumberInput(attrs={'class': 'form-control', 'min': '1', 'max': '5'}),
             'comment': Textarea(attrs={'placeholder': 'Please enter a comment',
                                        'class': 'form-control', 'required': False}),
         }

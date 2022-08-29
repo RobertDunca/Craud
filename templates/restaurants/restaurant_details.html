@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block title %}
-    Event - {{ event.name }}
+    Restaurant - {{ restaurant.name }}
 {% endblock %}
 
 {% block content %}
     <div class="container">
         <div class="row">
             <div class="col">
-                <h3>avg rating {{ event.average_rating }}</h3>
+                <h3>avg rating {{ restaurant.average_rating }}</h3>
             </div>
             <div class="row">
                 <div class="card border-0">
@@ -58,8 +58,8 @@
                                                 {% endfor %}
                                             </div>
                                             <div class="col-2">
-                                                <input type="hidden" name="review_model" value="event">
-                                                <input type="hidden" name="id" value="{{ event.id }}">
+                                                <input type="hidden" name="review_model" value="restaurant">
+                                                <input type="hidden" name="id" value="{{ restaurant.id }}">
                                                 <button type="submit" class="btn"><strong>Post</strong></button>
                                             </div>
                                         </div>
@@ -73,7 +73,7 @@
                                     <h5>Reviews:</h5>
                                 </div>
                                 <div class="card-body">
-                                    {% for review in event.reviews.all %}
+                                    {% for review in restaurant.reviews.all %}
                                         <div class="container">
                                             <div class="row">
                                                 @{{ review.user.username }}
@@ -82,7 +82,7 @@
                                                 <div class="col">
                                                     {{ review.rating }}
                                                     {% if review.comment %}
-                                                          - {{ review.comment }}
+                                                         - {{ review.comment }}
                                                     {% endif %}
                                                 </div>
                                             </div>

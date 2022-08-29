@@ -26,3 +26,9 @@ class RestaurantFilter(django_filters.FilterSet):
         self.filters['name'].field.widget.attrs.update({'class': 'form-control', 'placeholder': 'Search restaurant'})
         self.filters['type'].field.widget.attrs.update({'class': 'form-select'})
 
+    # @staticmethod
+    # def filter_rating(self, queryset, name, value):
+    #     return queryset.filter(**{
+    #         name: value,
+    #     })
+
