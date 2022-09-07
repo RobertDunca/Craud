@@ -9,4 +9,5 @@ urlpatterns = [
     path('restaurants/', views.RestaurantListView.as_view(), name='all_restaurants'),
     path('restaurant-details/<int:pk>/', views.RestaurantDetailView.as_view(), name='restaurant_details'),
     path('create-review/', views.ReviewCreateView.as_view(), name='create_review'),
+    path('', views.HomeTemplateView.as_view(), name='home')
 ]

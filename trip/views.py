@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic import ListView, CreateView, DetailView, TemplateView
 from django.views.generic.list import MultipleObjectMixin
 
 from trip.filters import EventFilter, RestaurantFilter
@@ -9,23 +9,35 @@ from trip.forms import EventForm, ReviewForm, ThingToDoForm
 from trip.models import Event, Restaurant, Review, ThingToDo
 
 
-# class FilteredListView(ListView):
-#     filter_class = None
-#     filtered_set = None
-#
-#     def __init__(self):
-#         super().__init__()
-#         self.min_rating = 1
-#
-#     def get_queryset(self):
-#         queryset = super().get_queryset()
-#         self.filtered_set = self.filter_class(self.request.GET, queryset=queryset)
-#         return self.filtered_set.qs.distinct()
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['filter'] = self.filtered_set
-#         return context
+class FilteredListView(ListView):
+    filter_class = None
+    filtered_set = None
+    fs_set = None
+    min_rating = 1
+
+    def __init__(self):
+        super().__init__()
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filtered_set = self.filter_class(self.request.GET, queryset=queryset)
+        return self.filtered_set.qs
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        objects = self.get_queryset()
+
+        self.min_rating = int(self.request.GET.get('min_rating', 1))
+
+        self.fs_set = filter_sort_objects(list(objects), self.min_rating)
+        paginator = self.get_paginator(self.fs_set, self.paginate_by)
+        self.fs_set = paginator.page(self.request.GET.get('page', 1)).object_list
+
+        data['filter'] = self.filtered_set
+        data['min_rating'] = self.min_rating
+        data[self.context_object_name] = self.fs_set
+
+        return data
 
 
 class ReviewCreateView(LoginRequiredMixin, CreateView):
@@ -47,11 +59,11 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
                 event = Event.objects.get(pk=id_)
                 event.reviews.add(review)
                 event.save()
-            if review_model == 'restaurant':
+            elif review_model == 'restaurant':
                 restaurant = Restaurant.objects.get(pk=id_)
                 restaurant.reviews.add(review)
                 restaurant.save()
-            if review_model == 'thing':
+            elif review_model == 'thing':
                 thing_to_do = ThingToDo.objects.get(pk=id_)
                 thing_to_do.reviews.add(review)
                 thing_to_do.save()
@@ -65,19 +77,12 @@ class EventCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('create_new_event')
 
 
-class EventListView(ListView):
+class EventListView(FilteredListView):
     template_name = 'events/list_of_events.html'
     model = Event
     context_object_name = 'all_events'
-
-    def get_context_data(self, **kwargs):
-        data = super(EventListView, self).get_context_data()
-        events = Event.objects.all()
-        event_filter = EventFilter(self.request.GET, queryset=events)
-        data['all_events'] = event_filter.qs
-        data['event_filter'] = event_filter
-
-        return data
+    paginate_by = 5
+    filter_class = EventFilter
 
 
 class EventDetailView(DetailView):
@@ -97,43 +102,38 @@ class RestaurantCreateView(PermissionRequiredMixin, CreateView):
     success_url = reverse_lazy('create_new_restaurant')
 
 
-class RestaurantListView(ListView, MultipleObjectMixin):
+class RestaurantListView(FilteredListView, MultipleObjectMixin):
     template_name = 'restaurants/list_of_restaurants.html'
     paginate_by = 5
     model = Restaurant
     context_object_name = 'all_restaurants'
+    filter_class = RestaurantFilter
 
-    def get_queryset(self):
-        # restaurants = Restaurant.objects.all()
-        queryset = super().get_queryset()
-        restaurant_filter = RestaurantFilter(self.request.GET, queryset=queryset)
-        # self.get_paginator()
-        # restaurants = Restaurant.objects.all()
-        return restaurant_filter.qs
-
-    def get_context_data(self, **kwargs):
-        data = super(RestaurantListView, self).get_context_data()
-        restaurants = self.get_queryset()
-        restaurant_filter = RestaurantFilter(self.request.GET, queryset=restaurants)
-        restaurants = list(restaurants)
-
-        min_rating = int(self.request.GET.get('min_rating', 1))
-
-        restaurants = filter_sort_restaurants(restaurants, min_rating)
-        paginator = self.get_paginator(restaurants, self.paginate_by)
-        restaurants = paginator.page(self.request.GET.get('page', 1)).object_list
-
-        data['min_rating'] = min_rating
-        data['all_restaurants'] = restaurants
-        data['restaurant_filter'] = restaurant_filter
-
-        return data
-
-
-def filter_sort_restaurants(restaurants, min_rating=1):
-    restaurants = list(filter(lambda restaurant: restaurant.average_rating() >= min_rating, restaurants))
-    restaurants.sort(key=lambda restaurant: restaurant.average_rating(), reverse=True)
-    return restaurants
+    # def get_queryset(self):
+    #     # restaurants = Restaurant.objects.all()
+    #     queryset = super().get_queryset()
+    #     restaurant_filter = RestaurantFilter(self.request.GET, queryset=queryset)
+    #     # self.get_paginator()
+    #     # restaurants = Restaurant.objects.all()
+    #     return restaurant_filter.qs
+    #
+    # def get_context_data(self, **kwargs):
+    #     data = super(RestaurantListView, self).get_context_data()
+    #     restaurants = self.get_queryset()
+    #     restaurant_filter = RestaurantFilter(self.request.GET, queryset=restaurants)
+    #     restaurants = list(restaurants)
+    #
+    #     min_rating = int(self.request.GET.get('min_rating', 1))
+    #
+    #     restaurants = filter_sort_objects(restaurants, min_rating)
+    #     paginator = self.get_paginator(restaurants, self.paginate_by)
+    #     restaurants = paginator.page(self.request.GET.get('page', 1)).object_list
+    #
+    #     data['min_rating'] = min_rating
+    #     data['all_restaurants'] = restaurants
+    #     data['restaurant_filter'] = restaurant_filter
+    #
+    #     return data
 
 
 class RestaurantDetailView(DetailView):
@@ -157,3 +157,25 @@ class ThingToDoListView(ListView):
     template_name = 'things_to_do/list_of_ttd.html'
     model = ThingToDo
     context_object_name = 'all_ttd'
+
+
+def filter_sort_objects(objects, min_rating=1):
+    objects = list(filter(lambda obj: obj.average_rating() >= min_rating, objects))
+    objects.sort(key=lambda obj: obj.average_rating(), reverse=True)
+    return objects
+
+
+class HomeTemplateView(TemplateView):
+    template_name = 'home/home.html'
+
+    def get_context_data(self, **kwargs):
+        all_restaurants = Restaurant.objects.all()
+        count_restaurants = all_restaurants.count()
+
+        all_events = Event.objects.all()
+        count_events = all_events.count()
+
+        data = {'restaurants': filter_sort_objects(objects=all_restaurants)[:min(count_restaurants, 3)],
+                'events': filter_sort_objects(objects=all_events)[:min(count_events, 3)],
+                }
+        return data

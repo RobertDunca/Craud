@@ -28,7 +28,7 @@
                 <form method="get">
                     <div class="card border-0">
                         <div class="card-body">
-                            {% for field in restaurant_filter.form %}
+                            {% for field in filter.form %}
                                 <div class="mb-3">
                                     <label class="form-label">{{ field.label_tag }}</label>
                                     {{ field }}
@@ -53,7 +53,7 @@
                         <div class="card border-0 bcg">
                             <div class="row g-0">
                                 <div class="col-md-4">
-                                    <img src="{{ restaurant.photo }}" class="img-fluid ph" alt="...">
+                                    <img src="{{ restaurant.photo.url }}" class="img-fluid ph" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -75,7 +75,7 @@
                         <div class="card border-0">
                             <div class="row g-0">
                                 <div class="col-md-4">
-                                    <img src="{{ restaurant.photo }}" class="img-fluid ph" alt="...">
+                                    <img src="{{ restaurant.photo.url }}" class="img-fluid ph" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
