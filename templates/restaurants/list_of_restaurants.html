@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load trip_tags %}
 
 {% block title %}Restaurants{% endblock %}
 {% block content %}
@@ -28,15 +29,13 @@
                 <form method="get">
                     <div class="card border-0">
                         <div class="card-body">
-                            {% for field in filter.form %}
-                                <div class="mb-3">
-                                    <label class="form-label">{{ field.label_tag }}</label>
-                                    {{ field }}
-                                </div>
-                            {% endfor %}
-                            <label>
-                                <input type="number" min="1" max="5" value="{{ min_rating }}" name="min_rating">
-                            </label>
+                            <form method="GET">
+                                {{ filtered_restaurants.form.as_p }}
+                            </form>
+
+{#                            <label>#}
+{#                                <input type="number" min="1" max="5" value="{{ min_rating }}" name="min_rating">#}
+{#                            </label>#}
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn">Search</button>
@@ -45,7 +44,7 @@
                 </form>
             </div>
         </div>
-        {% for restaurant in all_restaurants %}
+        {% for restaurant in restaurant_page_obj %}
 
             {% if forloop.counter|divisibleby:2 %}
                 <div class="container mydiv lste">
@@ -57,7 +56,8 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
-                                        <a href="{% url 'restaurant_details' restaurant.id %}" class="link"><h5 style="color: black">{{ restaurant.name }}</h5></a>
+                                        <a href="{% url 'restaurant_details' restaurant.id %}" class="link"><h5
+                                                style="color: black">{{ restaurant.name }}</h5></a>
                                         <p>{{ restaurant.average_rating }}</p>
                                         <p class="card-text">{{ restaurant.description }}</p>
                                         <p class="card-text"><small class="text-muted">
@@ -79,7 +79,8 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
-                                        <a href="{% url 'restaurant_details' restaurant.id %}" class="link"><h5 style="color: black">{{ restaurant.name }}</h5></a>
+                                        <a href="{% url 'restaurant_details' restaurant.id %}" class="link"><h5
+                                                style="color: black">{{ restaurant.name }}</h5></a>
                                         <p>{{ restaurant.average_rating }}</p>
                                         <p class="card-text">{{ restaurant.description }}</p>
                                         <p class="card-text"><small class="text-muted">
@@ -95,13 +96,13 @@
         {% endfor %}
         <div class="pagination">
             <span class="step-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% if restaurant_page_obj.has_previous %}
+                    <a href="{% get_url 1 'page' request.GET.urlencode %}">&laquo; First</a>
+                    <a href="{% get_url restaurant_page_obj.previous_page_number 'page' request.GET.urlencode %}">Previous</a>
                 {% endif %}
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">next</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% if restaurant_page_obj.has_next %}
+                    <a href="{% get_url restaurant_page_obj.next_page_number 'page' request.GET.urlencode %}">Next</a>
+                    <a href="{% get_url restaurant_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">last &raquo;</a>
                 {% endif %}
             </span>
         </div>
