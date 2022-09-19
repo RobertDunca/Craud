@@ -11,7 +11,8 @@
         {#    body {#}
         {#        padding-top: 70px;#}
         {#    }#}
-        {#}#}
+        {
+        #}#}
 
         .link {
             text-decoration: none !important;
@@ -70,7 +71,7 @@
             left: 50%;
             transform: translateX(-50%);
             width: 100vw;
-            background: #AABFB8;
+            background: #B3A938;
             z-index: -1;
         }
 
@@ -78,11 +79,29 @@
             margin-top: 5px;
             margin-bottom: 5px;
         }
+
+        .center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .my-btn {
+            background-color: #fbca6b;
+            border-color: #fbca6b;
+        }
+
+        .my-btn:hover {
+            background-color: #B3A938;
+            border-color: #B3A938;
+        }
+
+
     </style>
 </head>
 <body data-bs-spy="scroll" data-bs-target="#navId" tabindex="0">
 {% include 'navbar.html' %}
-<div class="container" style="padding-top: 70px; padding-bottom: 20px">
+<div class="container" style="padding-top: 80px; padding-bottom: 20px">
     {% block content %}
 
     {% endblock %}
@@ -95,7 +114,7 @@
         <div class="row">
             <!--Grid column-->
             <div class="col-4">
-                <h5>Plan your trip!</h5>
+                <h5 class="text-uppercase">Plan your trip</h5>
                 <ul class="list-unstyled mb-0">
                     <li>
                         <a class="text-white link" href="{% url 'all_events' %}">Events</a>

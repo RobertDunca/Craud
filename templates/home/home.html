@@ -4,12 +4,65 @@
 
 {% block content %}
     <div class="container">
-        <div class="row">
-{#            <div class="col-6">#}
-{##}
-{#            </div>#}
+        <div class="row center" style="padding-bottom: 20px">
             <div class="col">
-                <img src="{% static 'images/background/pngegg.png' %}" style="height: 600px" alt="...">
+                <div class="row">
+                    <div class="container" style="text-align: center">
+                        <p> &emsp;Welcome to Craud! Craud is a Django based web application, similar with TripAdvisor.
+                            You can
+                            search
+                            for places to eat, events to take part in and other things to do in the city of Cluj-Napoca.
+                            Sign
+                            up and you'll be able to leave reviews or add an event of your own. Start today!</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="container center">
+                        <a class="btn my-btn" href="{% url 'create_user' %}" role="button">Get started!</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="container">
+                    <img src="{% static 'images/background/pngegg.png' %}" style="height: 500px" alt="...">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card" style="background-color: #5d781b; border-color: #5d781b;">
+                    <div class="container" style="padding-top: 30px; padding-bottom: 30px">
+                        <div class="row">
+                            <div class="col">
+                                <div class="card shadow text-center" style="background-color: #fbca6b; border-width: 0;">
+                                    <img src="{% static 'images/events/piata-unirii-deschidere_25_05_2018-marius-maris_print-1095.jpg' %}" class="card-img-top" alt="..." style="height: 200px; object-fit: cover;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Find a new event</h5>
+                                        <a href="{% url 'all_events' %}" class="btn" style="background-color: #B3A938;">Events</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card shadow text-center" style="background-color: #fbca6b; border-width: 0;">
+                                    <img src="{% static 'images/restaurants/depositphotos_174411266-stock-photo-friends-toasting-at-dinner-party.jpg' %}" class="card-img-top" alt="..." style="height: 200px; object-fit: cover;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Search for a place to eat</h5>
+                                        <a href="{% url 'all_restaurants' %}" class="btn" style="background-color: #B3A938;">Restaurants</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card shadow text-center" style="background-color: #fbca6b; border-width: 0;">
+                                    <img src="{% static 'images/things_to_do/Mina-Rudolf-2.jpg' %}" class="card-img-top" alt="..." style="height: 200px; object-fit: cover;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">What to do</h5>
+                                        <a href="{% url 'all_ttd' %}" class="btn" style="background-color: #B3A938;">Things to do</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

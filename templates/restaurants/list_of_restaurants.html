@@ -33,9 +33,9 @@
                                 {{ filtered_restaurants.form.as_p }}
                             </form>
 
-{#                            <label>#}
-{#                                <input type="number" min="1" max="5" value="{{ min_rating }}" name="min_rating">#}
-{#                            </label>#}
+                            {#                            <label>#}
+                            {#                                <input type="number" min="1" max="5" value="{{ min_rating }}" name="min_rating">#}
+                            {#                            </label>#}
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn">Search</button>
@@ -46,53 +46,30 @@
         </div>
         {% for restaurant in restaurant_page_obj %}
 
-            {% if forloop.counter|divisibleby:2 %}
-                <div class="container mydiv lste">
-                    <div class="row bcg">
-                        <div class="card border-0 bcg">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="{{ restaurant.photo.url }}" class="img-fluid ph" alt="...">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <a href="{% url 'restaurant_details' restaurant.id %}" class="link"><h5
-                                                style="color: black">{{ restaurant.name }}</h5></a>
-                                        <p>{{ restaurant.average_rating }}</p>
-                                        <p class="card-text">{{ restaurant.description }}</p>
-                                        <p class="card-text"><small class="text-muted">
-                                            {{ restaurant.address }}
-                                        </small></p>
-                                    </div>
+            <div class="container {% if forloop.counter|divisibleby:2 %}mydiv lste{% endif %}">
+                <div class="row {% if forloop.counter|divisibleby:2 %}bcg{% endif %}">
+                    <div class="card border-0 {% if forloop.counter|divisibleby:2 %}bcg{% endif %}">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+
+                                <img src="{{ restaurant.photo.url }}" class="img-fluid ph" alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <a href="{% url 'restaurant_details' restaurant.id %}" class="link"
+                                       style="color: black">
+                                        <h5 style="color: black">{{ restaurant.name }}</h5></a>
+                                    <p>{{ restaurant.average_rating }}</p>
+                                    <p class="card-text">{{ restaurant.description }}</p>
+                                    <p class="card-text"><small class="text-muted">
+                                        {{ restaurant.address }}
+                                    </small></p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            {% else %}
-                <div class="container lste">
-                    <div class="row">
-                        <div class="card border-0">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="{{ restaurant.photo.url }}" class="img-fluid ph" alt="...">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <a href="{% url 'restaurant_details' restaurant.id %}" class="link"><h5
-                                                style="color: black">{{ restaurant.name }}</h5></a>
-                                        <p>{{ restaurant.average_rating }}</p>
-                                        <p class="card-text">{{ restaurant.description }}</p>
-                                        <p class="card-text"><small class="text-muted">
-                                            {{ restaurant.address }}
-                                        </small></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
+            </div>
         {% endfor %}
         <div class="pagination">
             <span class="step-links">

@@ -124,7 +124,7 @@ class RestaurantListView(ListView):
         data = super(RestaurantListView, self).get_context_data()
         # restaurants = self.get_queryset()
 
-        filtered_restaurants = RestaurantFilter(self.request.GET, queryset=self.get_queryset())
+        filtered_restaurants = RestaurantFilter(self.request.GET, queryset=Restaurant.objects.all())
         paginated_filtered_restaurants = Paginator(filtered_restaurants.qs, self.paginate_by)
         page_number = self.request.GET.get('page')
         restaurant_page_obj = paginated_filtered_restaurants.get_page(page_number)
@@ -136,10 +136,8 @@ class RestaurantListView(ListView):
         # paginator = self.get_paginator(restaurants, self.paginate_by)
         # restaurants = paginator.page(self.request.GET.get('page', 1)).object_list
 
-
         # data['min_rating'] = min_rating
         data['filtered_restaurants'] = filtered_restaurants
-        # data['restaurant_filter'] = restaurant_filter
         data['restaurant_page_obj'] = restaurant_page_obj
 
         return data
@@ -163,7 +161,7 @@ class ThingToDoCreateView(PermissionRequiredMixin, CreateView):
 
 
 class ThingToDoListView(ListView):
-    template_name = 'things_to_do/list_of_ttd.html'
+    template_name = 'things_to_do/all_ttd.html'
     model = ThingToDo
     context_object_name = 'all_ttd'
 

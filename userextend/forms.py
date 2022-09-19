@@ -8,7 +8,7 @@ class UserExtendForm(UserCreationForm):
     class Meta:
         model = User
         fields = [
-            'first_name', 'last_name', 'username', 'email'
+            'first_name', 'last_name', 'username', 'email',
         ]
 
         widgets = {
@@ -17,9 +17,18 @@ class UserExtendForm(UserCreationForm):
             'email': EmailInput(attrs={'class': 'form-control'}),
             'username': TextInput(attrs={'class': 'form-control'}),
         }
+        help_texts = {
+            'username': None,
+            'email': None,
+            'first_name': None,
+            'last_name': None,
+        }
 
     def __init__(self, *args, **kwargs):
         super(UserExtendForm, self).__init__(*args, **kwargs)
 
         self.fields['password1'].widget.attrs['class'] = 'form-control'
         self.fields['password2'].widget.attrs['class'] = 'form-control'
+
+        for fieldname in ['password1', 'password2']:
+            self.fields[fieldname].help_text = None
