@@ -15,8 +15,8 @@ class EventFilter(django_filters.FilterSet):
 
 
 class RestaurantFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(lookup_expr='icontains')
-    # min_rating = django_filters.NumberFilter(label='Minimum rating', method='filter_by_rating')
+    name = django_filters.CharFilter(lookup_expr='icontains', label='Name')
+    # type = django_filters.ChoiceFilter(label='Category:')
 
     class Meta:
         model = Restaurant
@@ -28,7 +28,4 @@ class RestaurantFilter(django_filters.FilterSet):
         self.filters['type'].field.widget.attrs.update({'class': 'form-select'})
 
 
-    # def filter_by_rating(self, queryset, name, value):
-    #     queryset = list(filter(lambda obj: obj.average_rating() >= value, queryset))
-    #     return queryset
 

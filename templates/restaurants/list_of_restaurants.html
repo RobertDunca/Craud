@@ -4,74 +4,112 @@
 
 {% block title %}Restaurants{% endblock %}
 {% block content %}
-    <div class="dropdown">
-        <button class="btn border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Order by
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">All</a></li>
-            <li><a class="dropdown-item" href="#">Rating</a></li>
-            <li><input type="button" value="Rating"></li>
-        </ul>
-    </div>
+    {#    <div class="dropdown">#}
+    {#        <button class="btn border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">#}
+    {#            Order by#}
+    {#        </button>#}
+    {#        <ul class="dropdown-menu">#}
+    {#            <li><a class="dropdown-item" href="#">All</a></li>#}
+    {#            <li><a class="dropdown-item" href="#">Rating</a></li>#}
+    {#            <li><input type="button" value="Rating"></li>#}
+    {#        </ul>#}
+    {#    </div>#}
+    {#    <div class="container">#}
+    {#        <button class="btn" type="button" data-bs-toggle="offcanvas"#}
+    {#                data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Search restaurant#}
+    {#        </button>#}
+    {##}
+    {#        <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"#}
+    {#             aria-labelledby="offcanvasWithBothOptionsLabel">#}
+    {#            <div class="offcanvas-header">#}
+    {#                <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Search restaurant</h5>#}
+    {#                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>#}
+    {#            </div>#}
+    {#            <div class="offcanvas-body">#}
+    {#                <form method="get">#}
+    {#                    <div class="card border-0">#}
+    {#                        <div class="card-body">#}
+    {#                            <form method="GET">#}
+    {#                                {{ filtered_restaurants.form.as_p }}#}
+    {#                            </form>#}
+    {##}
+    {#                            <label>#}
+    {#                                <input type="number" min="1" max="5" value="{{ min_rating }}" name="min_rating">#}
+    {#                            </label>#}
+    {#                        </div>#}
+    {#                        <div class="text-center">#}
+    {#                            <button type="submit" class="btn">Search</button>#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {#                </form>#}
+    {#            </div>#}
+    {#        </div>#}
     <div class="container">
-        <button class="btn" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Search restaurant
-        </button>
-
-        <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
-             aria-labelledby="offcanvasWithBothOptionsLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Search restaurant</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <form method="get">
-                    <div class="card border-0">
-                        <div class="card-body">
-                            <form method="GET">
-                                {{ filtered_restaurants.form.as_p }}
-                            </form>
-
-                            {#                            <label>#}
-                            {#                                <input type="number" min="1" max="5" value="{{ min_rating }}" name="min_rating">#}
-                            {#                            </label>#}
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn">Search</button>
-                        </div>
+        <div class="row">
+            <div class="col">
+                <div class="container"
+                     style="background-image: url('{% static "images/restaurants/depositphotos_28996223-stock-photo-restaurant-table-at-sunset.jpg" %}'); background-repeat: no-repeat;
+                             background-size: cover; padding: 0">
+                    <div class="container" style="background-color: rgba(0,0,0,.5); color: #fff; height: 400px">
+                        <div class="container center" style="height: 400px"><h1>Restaurants</h1></div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
-        {% for restaurant in restaurant_page_obj %}
-
-            <div class="container {% if forloop.counter|divisibleby:2 %}mydiv lste{% endif %}">
-                <div class="row {% if forloop.counter|divisibleby:2 %}bcg{% endif %}">
-                    <div class="card border-0 {% if forloop.counter|divisibleby:2 %}bcg{% endif %}">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-
-                                <img src="{{ restaurant.photo.url }}" class="img-fluid ph" alt="...">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <a href="{% url 'restaurant_details' restaurant.id %}" class="link"
-                                       style="color: black">
-                                        <h5 style="color: black">{{ restaurant.name }}</h5></a>
-                                    <p>{{ restaurant.average_rating }}</p>
-                                    <p class="card-text">{{ restaurant.description }}</p>
-                                    <p class="card-text"><small class="text-muted">
-                                        {{ restaurant.address }}
-                                    </small></p>
+        <div class="row">
+            <div class="col">
+                <div class="container" style="padding-top: 10px">
+                    <div class="card filter-card">
+                        <div class="card-body">
+                            <form method="GET">
+                                <div class="container">
+                                    <div class="row">
+                                        {% for field in filtered_restaurants.form %}
+                                            <div class="col-4" style="margin: auto">
+                                                {{ field.label }}{{ field }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
                                 </div>
+                                <div class="container center" style="padding-top: 15px">
+                                    <button type="submit" class="btn my-btn rounded-0"><strong>Search</strong></button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% for restaurant in restaurant_page_obj %}
+
+        <div class="container {% if forloop.counter|divisibleby:2 %}mydiv lste{% endif %}">
+            <div class="row {% if forloop.counter|divisibleby:2 %}bcg{% endif %}">
+                <div class="card border-0 {% if forloop.counter|divisibleby:2 %}bcg{% endif %}">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+
+                            <img src="{{ restaurant.photo.url }}" class="img-fluid ph" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <a href="{% url 'restaurant_details' restaurant.id %}" class="link"
+                                   style="color: black">
+                                    <h5 style="color: black">{{ restaurant.name }}</h5></a>
+                                <p>{{ restaurant.average_rating }}</p>
+                                <p class="card-text">{{ restaurant.description }}</p>
+                                <p class="card-text"><small class="text-muted">
+                                    {{ restaurant.address }}
+                                </small></p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        {% endfor %}
-        <div class="pagination">
+        </div>
+    {% endfor %}
+    <div class="pagination">
             <span class="step-links">
                 {% if restaurant_page_obj.has_previous %}
                     <a href="{% get_url 1 'page' request.GET.urlencode %}">&laquo; First</a>
@@ -82,7 +120,7 @@
                     <a href="{% get_url restaurant_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">last &raquo;</a>
                 {% endif %}
             </span>
-        </div>
     </div>
+
 
 {% endblock %}

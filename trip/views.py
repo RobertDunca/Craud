@@ -110,7 +110,6 @@ class RestaurantListView(ListView):
     paginate_by = 5
     model = Restaurant
     context_object_name = 'all_restaurants'
-    filter_class = RestaurantFilter
 
     # def get_queryset(self):
     #     # restaurants = Restaurant.objects.all()
