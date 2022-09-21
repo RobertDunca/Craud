@@ -1,63 +1,182 @@
+{#{% extends 'base.html' %}#}
+{#{% load static %}#}
+{##}
+{#{% block title %}Events{% endblock %}#}
+{#{% block content %}#}
+{#    <div class="container">#}
+{#        <button class="btn" type="button" data-bs-toggle="offcanvas"#}
+{#                data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Search restaurant#}
+{#        </button>#}
+{##}
+{#        <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"#}
+{#             aria-labelledby="offcanvasWithBothOptionsLabel">#}
+{#            <div class="offcanvas-header">#}
+{#                <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Search restaurant</h5>#}
+{#                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>#}
+{#            </div>#}
+{#            <div class="offcanvas-body">#}
+{#                <form method="get">#}
+{#                    <div class="card border-0">#}
+{#                        <div class="card-body">#}
+{#                            {% for field in filter.form %}#}
+{#                                <div class="mb-3">#}
+{#                                    <label for="exampleFormControlInput1" class="form-label">{{ field.label }}:</label>#}
+{#                                    {{ field }}#}
+{#                                </div>#}
+{#                            {% endfor %}#}
+{#                        </div>#}
+{#                        <div class="text-center">#}
+{#                            <button type="submit" class="btn">Search</button>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </form>#}
+{#            </div>#}
+{#        </div>#}
+{#        {% for event in all_events %}#}
+{##}
+{#            <div class="container {% if forloop.counter|divisibleby:2 %}mydiv lste{% endif %}">#}
+{#                <div class="row {% if forloop.counter|divisibleby:2 %}bcg{% endif %}">#}
+{#                    <div class="card border-0 {% if forloop.counter|divisibleby:2 %}bcg{% endif %}">#}
+{#                        <div class="row g-0">#}
+{#                            <div class="col-md-4">#}
+{##}
+{#                                <img src="{{ event.photo.url }}" class="img-fluid ph" alt="...">#}
+{#                            </div>#}
+{#                            <div class="col-md-8">#}
+{#                                <div class="card-body">#}
+{#                                    <a href="{% url 'event_details' event.id %}" class="link" style="color: black">#}
+{#                                        <h5 class="card-title">{{ event.name }}</h5></a>#}
+{#                                    <p class="card-text">{{ event.description }}</p>#}
+{#                                    <p class="card-text"><small class="text-muted">#}
+{#                                        {{ event.start_date }} - {{ event.end_date }}#}
+{#                                    </small></p>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{##}
+{#    </div>#}
+{##}
+{#{% endblock %}#}
+
 {% extends 'base.html' %}
 {% load static %}
+{% load trip_tags %}
 
 {% block title %}Events{% endblock %}
 {% block content %}
     <div class="container">
-        <button class="btn" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Search restaurant
-        </button>
-
-        <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
-             aria-labelledby="offcanvasWithBothOptionsLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Search restaurant</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <form method="get">
-                    <div class="card border-0">
-                        <div class="card-body">
-                            {% for field in filter.form %}
-                                <div class="mb-3">
-                                    <label for="exampleFormControlInput1" class="form-label">{{ field.label }}:</label>
-                                    {{ field }}
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn">Search</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        {% for event in all_events %}
-
-            <div class="container {% if forloop.counter|divisibleby:2 %}mydiv lste{% endif %}">
-                <div class="row {% if forloop.counter|divisibleby:2 %}bcg{% endif %}">
-                    <div class="card border-0 {% if forloop.counter|divisibleby:2 %}bcg{% endif %}">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-
-                                <img src="{{ event.photo.url }}" class="img-fluid ph" alt="...">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <a href="{% url 'event_details' event.id %}" class="link" style="color: black">
-                                        <h5 class="card-title">{{ event.name }}</h5></a>
-                                    <p class="card-text">{{ event.description }}</p>
-                                    <p class="card-text"><small class="text-muted">
-                                        {{ event.start_date }} - {{ event.end_date }}
-                                    </small></p>
-                                </div>
-                            </div>
+        <div class="row">
+            <div class="col">
+                <div class="container"
+                     style="background-image: url('{% static "images/events/piata-unirii-deschidere_25_05_2018-marius-maris_print-1095.jpg" %}'); background-repeat: no-repeat;
+                             background-size: cover; padding: 0">
+                    <div class="container" style="background-color: rgba(0,0,0,.5); color: #fff; height: 350px">
+                        <div class="container center" style="height: 350px">
+                            <h1 class="my-title"
+                                style="text-shadow: 1px 1px 2px black,0 0 25px #fbca6b">
+                                <strong>Events</strong>
+                            </h1>
                         </div>
                     </div>
                 </div>
             </div>
-        {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="container" style="padding-top: 20px">
+                    <div class="card filter-card">
+                        <div class="card-body">
+                            <form method="GET">
+                                <div class="container">
+                                    <div class="row">
+                                        {% for field in filtered_events.form %}
+                                            <div class="col-4" style="margin: auto">
+                                                {{ field.label }}{{ field }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="container center" style="padding-top: 15px">
+                                    <button type="submit" class="btn my-btn rounded-0"><strong>Search</strong></button>
+                                </div>
+                            </form>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="container" style="padding-top: 20px">
+                    {% for event in event_page_obj %}
+                        <div class="row">
+                            <div class="col">
+                                <div class="card trip-card {% if forloop.counter|divisibleby:2 %}second{% endif %}">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="container center" style="height: 200px">
+                                                    <a href="{% url 'event_details' event.id %}">
+                                                        <img src="{{ event.photo.url }}" class="ph my-shadow"
+                                                             alt="..."></a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body" style="height: 200px">
+                                                    <a href="{% url 'event_details' event.id %}" class="link"
+                                                       style="color: black">
+                                                        <h4>{{ event.name }}</h4></a>
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col"
+                                                                 style="display: flex; align-items: center; padding-bottom: 10px">
+                                                                <h5 class="rating">{{ event.average_rating }}</h5>
+                                                                <img alt="..." style="height: 25px; padding-right: 5px"
+                                                                     src="{% static 'images/135-1353166_star-icon-good-icon-png-transparent-png-removebg-preview.png' %}">
+                                                                <p style="margin-bottom: 0"><small class="text-muted">
+                                                                    {{ event.reviews.count }}
+                                                                    {% if event.reviews.count == 1 %}
+                                                                        review{% else %}reviews{% endif %}
+                                                                </small></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p class="card-text text">{{ event.description }}</p>
+                                                    <p class="card-text"><small class="text-muted">
+                                                        {{ event.start_date }} - {{ event.end_date }}
+                                                    </small></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
-
+    <div class="row">
+        <div class="col center" style="padding-top: 20px">
+            <div class="pagination">
+            <span class="step-links">
+                {% if event_page_obj.has_previous %}
+                    <a class="link page" href="{% get_url 1 'page' event.GET.urlencode %}">&laquo; First |</a>
+                    <a class="link page" href="{% get_url event_page_obj.previous_page_number 'page' request.GET.urlencode %}"> Previous |</a>
+                {% endif %}
+                <a class="link page" href="{% get_url event_page_obj.number 'page' request.GET.urlencode %}"> {{ event_page_obj.number }} </a>
+                {% if event_page_obj.has_next %}
+                    <a class="link page" href="{% get_url event_page_obj.next_page_number 'page' request.GET.urlencode %}">| Next </a>
+                    <a class="link page" href="{% get_url event_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">| Last &raquo;</a>
+                {% endif %}
+            </span>
+            </div>
+        </div>
+    </div>
 {% endblock %}

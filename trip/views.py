@@ -85,7 +85,28 @@ class EventListView(ListView):
     model = Event
     context_object_name = 'all_events'
     paginate_by = 5
-    filter_class = EventFilter
+
+    def get_context_data(self, **kwargs):
+        data = super(EventListView, self).get_context_data()
+        # restaurants = self.get_queryset()
+
+        filtered_events = EventFilter(self.request.GET, queryset=Event.objects.all())
+        paginated_filtered_events = Paginator(filtered_events.qs, self.paginate_by)
+        page_number = self.request.GET.get('page')
+        event_page_obj = paginated_filtered_events.get_page(page_number)
+        # restaurants = list(restaurants)
+        #
+        # min_rating = int(self.request.GET.get('min_rating', 1))
+        #
+        # restaurants = filter_sort_objects(restaurants, min_rating)
+        # paginator = self.get_paginator(restaurants, self.paginate_by)
+        # restaurants = paginator.page(self.request.GET.get('page', 1)).object_list
+
+        # data['min_rating'] = min_rating
+        data['filtered_events'] = filtered_events
+        data['event_page_obj'] = event_page_obj
+
+        return data
 
 
 class EventDetailView(DetailView):

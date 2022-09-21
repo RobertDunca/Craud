@@ -3,7 +3,7 @@ import django_filters
 
 
 class EventFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(lookup_expr='icontains')
+    name = django_filters.CharFilter(lookup_expr='icontains', label='Name')
 
     class Meta:
         model = Event
@@ -15,8 +15,10 @@ class EventFilter(django_filters.FilterSet):
 
 
 class RestaurantFilter(django_filters.FilterSet):
+    CATEGORIES = Restaurant.restaurant_options
+
     name = django_filters.CharFilter(lookup_expr='icontains', label='Name')
-    # type = django_filters.ChoiceFilter(label='Category:')
+    type = django_filters.ChoiceFilter(label='Category', choices=CATEGORIES)
 
     class Meta:
         model = Restaurant

@@ -4,61 +4,26 @@
 
 {% block title %}Restaurants{% endblock %}
 {% block content %}
-    {#    <div class="dropdown">#}
-    {#        <button class="btn border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">#}
-    {#            Order by#}
-    {#        </button>#}
-    {#        <ul class="dropdown-menu">#}
-    {#            <li><a class="dropdown-item" href="#">All</a></li>#}
-    {#            <li><a class="dropdown-item" href="#">Rating</a></li>#}
-    {#            <li><input type="button" value="Rating"></li>#}
-    {#        </ul>#}
-    {#    </div>#}
-    {#    <div class="container">#}
-    {#        <button class="btn" type="button" data-bs-toggle="offcanvas"#}
-    {#                data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Search restaurant#}
-    {#        </button>#}
-    {##}
-    {#        <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"#}
-    {#             aria-labelledby="offcanvasWithBothOptionsLabel">#}
-    {#            <div class="offcanvas-header">#}
-    {#                <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Search restaurant</h5>#}
-    {#                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>#}
-    {#            </div>#}
-    {#            <div class="offcanvas-body">#}
-    {#                <form method="get">#}
-    {#                    <div class="card border-0">#}
-    {#                        <div class="card-body">#}
-    {#                            <form method="GET">#}
-    {#                                {{ filtered_restaurants.form.as_p }}#}
-    {#                            </form>#}
-    {##}
-    {#                            <label>#}
-    {#                                <input type="number" min="1" max="5" value="{{ min_rating }}" name="min_rating">#}
-    {#                            </label>#}
-    {#                        </div>#}
-    {#                        <div class="text-center">#}
-    {#                            <button type="submit" class="btn">Search</button>#}
-    {#                        </div>#}
-    {#                    </div>#}
-    {#                </form>#}
-    {#            </div>#}
-    {#        </div>#}
     <div class="container">
         <div class="row">
             <div class="col">
                 <div class="container"
-                     style="background-image: url('{% static "images/restaurants/depositphotos_28996223-stock-photo-restaurant-table-at-sunset.jpg" %}'); background-repeat: no-repeat;
+                     style="background-image: url('{% static "images/restaurants/depositphotos_174411266-stock-photo-friends-toasting-at-dinner-party.jpg" %}'); background-repeat: no-repeat;
                              background-size: cover; padding: 0">
-                    <div class="container" style="background-color: rgba(0,0,0,.5); color: #fff; height: 400px">
-                        <div class="container center" style="height: 400px"><h1>Restaurants</h1></div>
+                    <div class="container" style="background-color: rgba(0,0,0,.5); color: #fff; height: 350px">
+                        <div class="container center" style="height: 350px">
+                            <h1 class="my-title"
+                                style="text-shadow: 1px 1px 2px black,0 0 25px #fbca6b">
+                                <strong>Restaurants</strong>
+                            </h1>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <div class="container" style="padding-top: 10px">
+                <div class="container" style="padding-top: 20px">
                     <div class="card filter-card">
                         <div class="card-body">
                             <form method="GET">
@@ -81,46 +46,73 @@
                 </div>
             </div>
         </div>
-    </div>
-    {% for restaurant in restaurant_page_obj %}
-
-        <div class="container {% if forloop.counter|divisibleby:2 %}mydiv lste{% endif %}">
-            <div class="row {% if forloop.counter|divisibleby:2 %}bcg{% endif %}">
-                <div class="card border-0 {% if forloop.counter|divisibleby:2 %}bcg{% endif %}">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-
-                            <img src="{{ restaurant.photo.url }}" class="img-fluid ph" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <a href="{% url 'restaurant_details' restaurant.id %}" class="link"
-                                   style="color: black">
-                                    <h5 style="color: black">{{ restaurant.name }}</h5></a>
-                                <p>{{ restaurant.average_rating }}</p>
-                                <p class="card-text">{{ restaurant.description }}</p>
-                                <p class="card-text"><small class="text-muted">
-                                    {{ restaurant.address }}
-                                </small></p>
+        <div class="row">
+            <div class="col">
+                <div class="container" style="padding-top: 20px">
+                    {% for restaurant in restaurant_page_obj %}
+                        <div class="row">
+                            <div class="col">
+                                <div class="card trip-card {% if forloop.counter|divisibleby:2 %}second{% endif %}">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="container center" style="height: 200px">
+                                                    <a href="{% url 'restaurant_details' restaurant.id %}">
+                                                        <img src="{{ restaurant.photo.url }}" class="ph my-shadow"
+                                                             alt="..."></a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body" style="height: 200px">
+                                                    <a href="{% url 'restaurant_details' restaurant.id %}" class="link"
+                                                       style="color: black">
+                                                        <h4>{{ restaurant.name }}</h4></a>
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col"
+                                                                 style="display: flex; align-items: center; padding-bottom: 10px">
+                                                                <h5 class="rating">{{ restaurant.average_rating }}</h5>
+                                                                <img alt="..." style="height: 25px; padding-right: 5px"
+                                                                     src="{% static 'images/135-1353166_star-icon-good-icon-png-transparent-png-removebg-preview.png' %}">
+                                                                <p style="margin-bottom: 0"><small class="text-muted">
+                                                                    {{ restaurant.reviews.count }}
+                                                                    {% if restaurant.reviews.count == 1 %}
+                                                                        review{% else %}reviews{% endif %}
+                                                                </small></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p class="card-text text">{{ restaurant.description }}</p>
+                                                    <p class="card-text"><small class="text-muted">
+                                                        {{ restaurant.address }}
+                                                    </small></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
-    {% endfor %}
-    <div class="pagination">
+    </div>
+    <div class="row">
+        <div class="col center" style="padding-top: 20px">
+            <div class="pagination">
             <span class="step-links">
                 {% if restaurant_page_obj.has_previous %}
-                    <a href="{% get_url 1 'page' request.GET.urlencode %}">&laquo; First</a>
-                    <a href="{% get_url restaurant_page_obj.previous_page_number 'page' request.GET.urlencode %}">Previous</a>
+                    <a class="link page" href="{% get_url 1 'page' request.GET.urlencode %}">&laquo; First |</a>
+                    <a class="link page" href="{% get_url restaurant_page_obj.previous_page_number 'page' request.GET.urlencode %}"> Previous |</a>
                 {% endif %}
+                <a class="link page" href="{% get_url restaurant_page_obj.number 'page' request.GET.urlencode %}"> {{ restaurant_page_obj.number }} </a>
                 {% if restaurant_page_obj.has_next %}
-                    <a href="{% get_url restaurant_page_obj.next_page_number 'page' request.GET.urlencode %}">Next</a>
-                    <a href="{% get_url restaurant_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">last &raquo;</a>
+                    <a class="link page" href="{% get_url restaurant_page_obj.next_page_number 'page' request.GET.urlencode %}">| Next </a>
+                    <a class="link page" href="{% get_url restaurant_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">| Last &raquo;</a>
                 {% endif %}
             </span>
+            </div>
+        </div>
     </div>
-
-
 {% endblock %}
