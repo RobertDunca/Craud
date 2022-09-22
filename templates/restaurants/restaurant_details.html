@@ -67,7 +67,7 @@
         <div class="row">
             <div class="col">
                 <div class="card rounded-0"
-                     style="border-width: 0; margin-top: 20px">
+                     style="border-width: 0; margin-top: 20px; border-bottom-width: 1px">
                     <div class="card-header" style="background-color: white">
                         <h5 class="card-title">Find a similar restaurant</h5>
                     </div>
@@ -96,96 +96,125 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container reviews">
         <div class="row">
             <div class="col">
-                <h3>avg rating {{ restaurant.average_rating }}</h3>
-            </div>
-            <div class="row">
-                <div class="card border-0">
-                    <div class="card-header" style="background-color: white">
-                        <div class="col-md-1 offset-md-1">
-
-                        </div>
-                    </div>
+                <div class="card border-0 rounded-0" style="padding-right: 40px;padding-left: 40px; padding-top: 10px;">
                     <div class="card-body">
-                        <div class="container">
-                            <div class="card border-0" style="width: 40rem;">
-                                <div class="card-body">
-                                    <form method="post" action="{% url 'create_review' %}">
-                                        <div class="row">
-                                            <div class="col-10">
-                                                {% csrf_token %}
-                                                {% for field in form %}
-                                                    <div class="container">
-                                                        <div class="fieldWrapper">
-                                                            {% if field.name == 'rating' %}
-                                                                <div class="row">
-                                                                    <div class="col" style="display: inline">
-                                                                        {{ field.errors }}
-                                                                        <label class="form-label border-0"
-                                                                               style="padding-right: 5px">{{ field.label_tag }}</label>
-                                                                        {{ field }}
-                                                                    </div>
-                                                                </div>
-                                                            {% elif field.name == 'comment' %}
-                                                                <div class="row" style="padding-top: 10px">
-                                                                    <div class="col">
-                                                                        {{ field.errors }}
-                                                                        <a class="link" style="color: black"
-                                                                           data-bs-toggle="collapse"
-                                                                           href="#collapseComment" role="button"
-                                                                           aria-expanded="false"
-                                                                           aria-controls="collapseExample">
-                                                                            Add a {{ field.name }}:
-                                                                        </a>
-                                                                        <div class="collapse" id="collapseComment">
-                                                                            {{ field }}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                {% endfor %}
-                                            </div>
-                                            <div class="col-2">
-                                                <input type="hidden" name="review_model" value="restaurant">
-                                                <input type="hidden" name="id" value="{{ restaurant.id }}">
-                                                <button type="submit" class="btn"><strong>Post</strong></button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container">
-                            <div class="card border-0">
-                                <div class="card-header">
-                                    <h5>Reviews:</h5>
-                                </div>
-                                <div class="card-body">
-                                    {% for review in restaurant.reviews.all %}
-                                        <div class="container">
-                                            <div class="row">
-                                                @{{ review.user.username }}
-                                            </div>
-                                            <div class="row">
-                                                <div class="col">
-                                                    {{ review.rating }}
-                                                    {% if review.comment %}
-                                                        - {{ review.comment }}
-                                                    {% endif %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
+                            <h5 style="display: inline"><strong>Reviews&nbsp</strong></h5>
+                            <h5 class="text-muted" style="display: inline">({{ restaurant.reviews.count }})</h5>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="row" style="background-color: rgba(93,120,27,0.3);padding-top: 20px">
+            <div class="col">
+                <div class="card border-0 rounded-0" style="padding-right: 40px;padding-left: 40px; padding-top: 10px; margin-bottom: 10px">
+                    <div class="card-header" style="background-color: white">
+                        <div class="col-md-2 offset-md-1">
+                            <h5 style="display: inline">Add a review</h5>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {#                        <div class="container">#}
+                        {#                        <div class="card border-0" style="width: 40rem;">#}
+                        {#                            <div class="card-body">#}
+                        <form method="post" action="{% url 'create_review' %}">
+                            <div class="row">
+                                <div class="col-6">
+                                    {% csrf_token %}
+                                    {% for field in form %}
+                                        <div class="container">
+                                            <div class="fieldWrapper">
+                                                {% if field.name == 'rating' %}
+                                                    <div class="row">
+                                                        <div class="col" style="display: inline">
+                                                            {{ field.errors }}
+                                                            <label class="form-label border-0"
+                                                                   style="padding-right: 5px">{{ field.label_tag }}</label>
+                                                            {{ field }}
+                                                        </div>
+                                                    </div>
+                                                {% elif field.name == 'comment' %}
+                                                    <div class="row" style="padding-top: 10px">
+                                                        <div class="col">
+                                                            {{ field.errors }}
+                                                            <a class="btn rounded-0"
+                                                               data-bs-toggle="collapse"
+                                                               href="#collapseComment" role="button"
+                                                               aria-expanded="false"
+                                                               aria-controls="collapseExample">
+                                                                Add a {{ field.name }}:
+                                                            </a>
+                                                            <div class="collapse" id="collapseComment">
+                                                                {{ field }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="col-2" style="text-align: end">
+                                    <input type="hidden" name="review_model" value="restaurant">
+                                    <input type="hidden" name="id" value="{{ restaurant.id }}">
+                                    <button type="submit" class="btn my-btn">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="background-color: rgba(93,120,27,0.3);padding-bottom: 10px">
+            <div class="col">
+                {% for review in restaurant.reviews.all %}
+                    <div class="card rounded-0" style="margin: 10px">
+                        <div class="card-header" style="border-width: 0; background-color: white">
+                            <h6>@{{ review.user.username }}</h6>
+                        </div>
+                        <div class="card-body" style="display: flex">
+                            <h6 style="margin-bottom: 0; margin-top: 3px">{{ review.rating }}</h6>
+                            <img alt="..." style="height: 20px; padding-right: 5px; margin-top: 3px"
+                                 src="{% static 'images/135-1353166_star-icon-good-icon-png-transparent-png-removebg-preview.png' %}">
+                            {% if review.comment %}
+                                <p style="margin-bottom: 0">- {{ review.comment }}</p>
+                            {% else %}
+                                <p class="text-muted" style="margin-bottom: 0">&nbsp- no comment available from this user</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {#            <div class="container">#}
+        {#                <div class="card border-0">#}
+        {#                    <div class="card-header">#}
+        {#                        <h5>Reviews:</h5>#}
+        {#                    </div>#}
+        {#                    <div class="card-body">#}
+        {#                        {% for review in restaurant.reviews.all %}#}
+        {#                            <div class="container">#}
+        {#                                <div class="row">#}
+        {#                                    @{{ review.user.username }}#}
+        {#                                </div>#}
+        {#                                <div class="row">#}
+        {#                                    <div class="col">#}
+        {#                                        {{ review.rating }}#}
+        {#                                        {% if review.comment %}#}
+        {#                                            - {{ review.comment }}#}
+        {#                                        {% endif %}#}
+        {#                                    </div>#}
+        {#                                </div>#}
+        {#                            </div>#}
+        {#                        {% endfor %}#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            </div>#}
+
     </div>
+    {#        </div>#}
+    {#    </div>#}
+    {#    </div>#}
 {% endblock %}

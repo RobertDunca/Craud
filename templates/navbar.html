@@ -22,9 +22,9 @@
             </ul>
             <ul class="navbar-nav  mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
-                    <a class="nav-link active link hover" href="{% url 'logout' %}"><strong>
+                    <a class="nav-btn btn" href="{% url 'logout' %}"><strong>
                         Logout, {{ request.user.username }}
-                    </strong</a>
+                    </strong></a>
                 {% else %}
                     <a class="nav-btn btn" href="{% url 'login' %}"><strong>
                         Log In
