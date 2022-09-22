@@ -169,6 +169,16 @@ class RestaurantDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
+
+        all_restaurants = Restaurant.objects.all()
+        type_restaurants = filter(lambda r: r.type == self.object.type and r != self.object, all_restaurants)
+        type_restaurants = sorted(type_restaurants, key=lambda obj: obj.average_rating())
+        restaurants = []
+        for n, restaurant in enumerate(type_restaurants):
+            if n <= 4:
+                restaurants.append(restaurant)
+
+        context['type_restaurants'] = restaurants
         context['form'] = ReviewForm()
         return context
 
@@ -206,3 +216,4 @@ class HomeTemplateView(TemplateView):
                 'events': filter_sort_objects(objects=all_events)[:min(count_events, 3)],
                 }
         return data
+

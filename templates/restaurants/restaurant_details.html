@@ -1,9 +1,101 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
     Restaurant - {{ restaurant.name }}
 {% endblock %}
 
 {% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2>{{ restaurant.name }}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <img class="hph" src="{{ restaurant.photo.url }}" alt="...">
+        </div>
+        <div class="row" style="background-color: #eaebed; margin-top: 10px; padding-bottom: 20px">
+            <div class="col-7">
+                <div class="container">
+                    <div class="row">
+                        <div class="col"
+                             style="display: flex; align-items: center; padding-bottom: 10px; padding-top: 20px; padding-left: 30px">
+                            <h5 class="rating">{{ restaurant.average_rating }}</h5>
+                            <img alt="..." style="height: 25px; padding-right: 5px"
+                                 src="{% static 'images/135-1353166_star-icon-good-icon-png-transparent-png-removebg-preview.png' %}">
+                            <p style="margin-bottom: 0"><small class="text-muted">
+                                {{ restaurant.reviews.count }}
+                                {% if restaurant.reviews.count == 1 %}
+                                    review{% else %}reviews{% endif %}
+                            </small></p>
+                            <h5 style="margin-bottom: 3px">&nbsp|&nbsp</h5>
+                            <p style="margin-bottom: 0">{{ restaurant.get_type_display }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    {{ restaurant.description }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="card" style="margin-top: 20px">
+                    <div class="card-body">
+                        <h5 class="card-title">Contact</h5>
+                        <p>Address: {{ restaurant.address }}</p>
+                        <p>
+                            Phone number:
+                            {% if restaurant.contact_num %}{{ restaurant.contact_num }}
+                            {% else %}no phone number available
+                            {% endif %}
+                        </p>
+                        <p>
+                            Website:
+                            {% if restaurant.website_url %}{{ restaurant.website_url }}
+                            {% else %}no website available
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card rounded-0"
+                     style="border-width: 0; margin-top: 20px">
+                    <div class="card-header" style="background-color: white">
+                        <h5 class="card-title">Find a similar restaurant</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row">
+                                {% for restaurant in type_restaurants %}
+                                    <div class="col-3">
+                                        <div class="card my-shadow text-center rounded-0" style=" border-width: 0;">
+                                            <img src="{{ restaurant.photo.url }}" class="card-img-top rounded-0"
+                                                 alt="..."
+                                                 style="height: 200px; object-fit: cover;">
+                                            <div class="card-body">
+                                                <h6 class="card-title">{{ restaurant.name }}</h6>
+                                                <a href="{% url 'restaurant_details' restaurant.id %}"
+                                                   class="btn rounded-0 my-btn">More details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="row">
             <div class="col">
@@ -82,7 +174,7 @@
                                                 <div class="col">
                                                     {{ review.rating }}
                                                     {% if review.comment %}
-                                                         - {{ review.comment }}
+                                                        - {{ review.comment }}
                                                     {% endif %}
                                                 </div>
                                             </div>
