@@ -20,7 +20,11 @@
                     <div class="row">
                         <div class="col"
                              style="display: flex; align-items: center; padding-bottom: 10px; padding-top: 20px; padding-left: 30px">
-                            <h5 class="rating">{{ restaurant.average_rating }}</h5>
+                            <h5 class="rating">
+                                {% if restaurant.avg_rating %}{{ restaurant.avg_rating }}
+                                {% else %} -
+                                {% endif %}
+                            </h5>
                             <img alt="..." style="height: 25px; padding-right: 5px"
                                  src="{% static 'images/135-1353166_star-icon-good-icon-png-transparent-png-removebg-preview.png' %}">
                             <p style="margin-bottom: 0"><small class="text-muted">
@@ -101,15 +105,16 @@
             <div class="col">
                 <div class="card border-0 rounded-0" style="padding-right: 40px;padding-left: 40px; padding-top: 10px;">
                     <div class="card-body">
-                            <h5 style="display: inline"><strong>Reviews&nbsp</strong></h5>
-                            <h5 class="text-muted" style="display: inline">({{ restaurant.reviews.count }})</h5>
+                        <h5 style="display: inline"><strong>Reviews&nbsp</strong></h5>
+                        <h5 class="text-muted" style="display: inline">({{ restaurant.reviews.count }})</h5>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row" style="background-color: rgba(93,120,27,0.3);padding-top: 20px">
             <div class="col">
-                <div class="card border-0 rounded-0" style="padding-right: 40px;padding-left: 40px; padding-top: 10px; margin-bottom: 10px">
+                <div class="card border-0 rounded-0"
+                     style="padding-right: 40px;padding-left: 40px; padding-top: 10px; margin-bottom: 10px">
                     <div class="card-header" style="background-color: white">
                         <div class="col-md-2 offset-md-1">
                             <h5 style="display: inline">Add a review</h5>
@@ -181,7 +186,8 @@
                             {% if review.comment %}
                                 <p style="margin-bottom: 0">- {{ review.comment }}</p>
                             {% else %}
-                                <p class="text-muted" style="margin-bottom: 0">&nbsp- no comment available from this user</p>
+                                <p class="text-muted" style="margin-bottom: 0">&nbsp- no comment available from this
+                                    user</p>
                             {% endif %}
                         </div>
                     </div>

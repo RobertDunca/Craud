@@ -135,7 +135,11 @@
                                                         <div class="row">
                                                             <div class="col"
                                                                  style="display: flex; align-items: center; padding-bottom: 10px">
-                                                                <h5 class="rating">{{ event.avg_rating }}</h5>
+                                                                <h5 class="rating">
+                                                                    {% if event.avg_rating %}{{ event.avg_rating }}
+                                                                    {% else %} -
+                                                                    {% endif %}
+                                                                </h5>
                                                                 <img alt="..." style="height: 25px; padding-right: 5px"
                                                                      src="{% static 'images/135-1353166_star-icon-good-icon-png-transparent-png-removebg-preview.png' %}">
                                                                 <p style="margin-bottom: 0"><small class="text-muted">
@@ -168,12 +172,16 @@
             <span class="step-links">
                 {% if event_page_obj.has_previous %}
                     <a class="link page" href="{% get_url 1 'page' event.GET.urlencode %}">&laquo; First |</a>
-                    <a class="link page" href="{% get_url event_page_obj.previous_page_number 'page' request.GET.urlencode %}"> Previous |</a>
+                    <a class="link page"
+                       href="{% get_url event_page_obj.previous_page_number 'page' request.GET.urlencode %}"> Previous |</a>
                 {% endif %}
-                <a class="link page" href="{% get_url event_page_obj.number 'page' request.GET.urlencode %}"> {{ event_page_obj.number }} </a>
+                <a class="link page"
+                   href="{% get_url event_page_obj.number 'page' request.GET.urlencode %}"> {{ event_page_obj.number }} </a>
                 {% if event_page_obj.has_next %}
-                    <a class="link page" href="{% get_url event_page_obj.next_page_number 'page' request.GET.urlencode %}">| Next </a>
-                    <a class="link page" href="{% get_url event_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">| Last &raquo;</a>
+                    <a class="link page"
+                       href="{% get_url event_page_obj.next_page_number 'page' request.GET.urlencode %}">| Next </a>
+                    <a class="link page"
+                       href="{% get_url event_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">| Last &raquo;</a>
                 {% endif %}
             </span>
             </div>
