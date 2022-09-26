@@ -32,6 +32,7 @@ class Event(models.Model):
     lat = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     reviews = models.ManyToManyField(Review, blank=True)
+    avg_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True)
 
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -40,9 +41,11 @@ class Event(models.Model):
     def __str__(self):
         return f'{self.name}'
 
-    def average_rating(self):
+    def clean(self):
         ratings = [r.rating for r in self.reviews.all()]
-        return 0 if len(ratings) == 0 else sum(ratings)/len(ratings)
+        avg = sum(ratings) / len(ratings)
+        avg = round(avg, 1)
+        self.avg_rating = 1 if len(ratings) == 0 else avg
 
 
 class Restaurant(models.Model):
@@ -60,17 +63,20 @@ class Restaurant(models.Model):
     long = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
     lat = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
     reviews = models.ManyToManyField(Review, blank=True)
+    avg_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True)
 
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def clean(self):
+        ratings = [r.rating for r in self.reviews.all()]
+        avg = sum(ratings) / len(ratings)
+        avg = round(avg, 1)
+        self.avg_rating = 1 if len(ratings) == 0 else avg
+
     def __str__(self):
         return f'{self.name}'
-
-    def average_rating(self):
-        ratings = [r.rating for r in self.reviews.all()]
-        return 1 if len(ratings) == 0 else sum(ratings)/len(ratings)
 
 
 class ThingToDo(models.Model):
@@ -88,10 +94,17 @@ class ThingToDo(models.Model):
     long = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
     lat = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
     reviews = models.ManyToManyField(Review, blank=True)
+    avg_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True)
 
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def clean(self):
+        ratings = [r.rating for r in self.reviews.all()]
+        avg = sum(ratings) / len(ratings)
+        avg = round(avg, 1)
+        self.avg_rating = 1 if len(ratings) == 0 else avg
 
     def __str__(self):
         return f'{self.name}'
