@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView, TemplateView
+from django.views.generic import ListView, CreateView, DetailView, TemplateView, View
 from django.core.paginator import Paginator
 
 from trip.filters import EventFilter, RestaurantFilter
@@ -137,32 +137,41 @@ class ThingToDoListView(ListView):
     context_object_name = 'all_ttd'
 
 
+class SearchListView(View):
+    @classmethod
+    def post(cls, request):
+        searched = request.POST['searched']
+
+        restaurants = Restaurant.objects.filter(name__contains=searched).order_by('-avg_rating')
+        events = Event.objects.filter(name__contains=searched).order_by('-avg_rating')
+        things_to_do = ThingToDo.objects.filter(name__contains=searched).order_by('-avg_rating')
+
+        context = {
+            'searched': searched,
+            'restaurants': restaurants,
+            'events': events,
+            'things_to_do': things_to_do
+        }
+
+        return render(request, 'search.html', context)
+
+
 class HomeTemplateView(TemplateView):
     template_name = 'home/home.html'
 
 
-# class SearchListView(ListView):
-#     template_name = 'search.html'
-#     context_object_name = 'search'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super(SearchListView, self).get_context_data()
-#         if self.request.method == 'POST':
-#             searched = self.request.GET['searched']
-#
-#             restaurants = Restaurant.objects.filter(name__contains=searched).order_by('-avg_rating')
-#             events = Event.objects.filter(name__contains=searched).order_by('-avg_rating')
-#             things_to_do = ThingToDo.objects.filter(name__contains=searched).order_by('-avg_rating')
-#
-#             context['restaurants'] = restaurants
-#             context['events'] = events
-#             context['things_to_do'] = things_to_do
-#             context['searched'] = searched
-#
-#             return context
-#
-#         else:
-#             return context
+# def search_restaurants(request):
+#     if request.method == 'POST':
+#         searched = request.POST['searched']
+#         restaurants = Restaurant.objects.filter(name__contains=searched).order_by('-avg_rating')
+#         return render(request,
+#                       'search.html',
+#                       {'searched': searched,
+#                        'restaurants': restaurants})
+#     else:
+#         return render(request,
+#                       'search.html',
+#                       {})
 
 
 def get_page_obj(obj, filtered_qs):

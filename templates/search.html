@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                {% if searched %}
+                    <h1>You searched for {{ searched }}</h1>
+                    {% for restaurant in restaurants %}<h5>{{ restaurant.name }}</h5>{% endfor %}
+{#                    {% for event in events %}<h5>{{ event.name }}</h5>{% endfor %}#}
+{#                    {% for thing_to_do in things_to_do %}<h5>{{ thing_to_do.name }}</h5>{% endfor %}#}
+                {% else %}
+                    <h1>You didn't search for anything</h1>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
