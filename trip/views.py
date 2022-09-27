@@ -59,10 +59,7 @@ class EventListView(ListView):
         data = super(EventListView, self).get_context_data()
 
         filtered_events = EventFilter(self.request.GET, queryset=Event.objects.all())
-
-        paginated_filtered_events = Paginator(filtered_events.qs, self.paginate_by)
-        page_number = self.request.GET.get('page')
-        event_page_obj = paginated_filtered_events.get_page(page_number)
+        event_page_obj = get_page_obj(self, filtered_events.qs)
 
         data['filtered_events'] = filtered_events
         data['event_page_obj'] = event_page_obj
@@ -97,10 +94,7 @@ class RestaurantListView(ListView):
         data = super(RestaurantListView, self).get_context_data()
 
         filtered_restaurants = RestaurantFilter(self.request.GET, queryset=Restaurant.objects.all())
-
-        paginated_filtered_restaurants = Paginator(filtered_restaurants.qs, self.paginate_by)
-        page_number = self.request.GET.get('page')
-        restaurant_page_obj = paginated_filtered_restaurants.get_page(page_number)
+        restaurant_page_obj = get_page_obj(self, filtered_restaurants.qs)
 
         data['filtered_restaurants'] = filtered_restaurants
         data['restaurant_page_obj'] = restaurant_page_obj
@@ -115,18 +109,19 @@ class RestaurantDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
 
-        all_restaurants = Restaurant.objects.all()
-        type_restaurants = filter(lambda r: r.type == self.object.type and r != self.object, all_restaurants)
-        type_restaurants = sorted(type_restaurants, key=lambda obj: obj.avg_rating)
-        restaurants = []
-        for n, restaurant in enumerate(type_restaurants):
-            if n <= 4:
-                restaurants.append(restaurant)
+        other_restaurants = self.get_other_restaurants()
 
-        context['type_restaurants'] = restaurants
+        context['type_restaurants'] = other_restaurants
         context['form'] = ReviewForm()
 
         return context
+
+    def get_other_restaurants(self):
+        all_restaurants = Restaurant.objects.all().order_by('-avg_rating')
+        type_restaurants = filter(lambda r: r.type == self.object.type and r != self.object, all_restaurants)
+        restaurants = list(type_restaurants)[:4]
+
+        return restaurants
 
 
 class ThingToDoCreateView(PermissionRequiredMixin, CreateView):
@@ -144,3 +139,11 @@ class ThingToDoListView(ListView):
 
 class HomeTemplateView(TemplateView):
     template_name = 'home/home.html'
+
+
+def get_page_obj(obj, filtered_qs):
+    paginated_filtered_obj = Paginator(filtered_qs, obj.paginate_by)
+    page_number = obj.request.GET.get('page')
+    restaurant_page_obj = paginated_filtered_obj.get_page(page_number)
+
+    return restaurant_page_obj
