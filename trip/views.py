@@ -141,6 +141,30 @@ class HomeTemplateView(TemplateView):
     template_name = 'home/home.html'
 
 
+# class SearchListView(ListView):
+#     template_name = 'search.html'
+#     context_object_name = 'search'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super(SearchListView, self).get_context_data()
+#         if self.request.method == 'POST':
+#             searched = self.request.GET['searched']
+#
+#             restaurants = Restaurant.objects.filter(name__contains=searched).order_by('-avg_rating')
+#             events = Event.objects.filter(name__contains=searched).order_by('-avg_rating')
+#             things_to_do = ThingToDo.objects.filter(name__contains=searched).order_by('-avg_rating')
+#
+#             context['restaurants'] = restaurants
+#             context['events'] = events
+#             context['things_to_do'] = things_to_do
+#             context['searched'] = searched
+#
+#             return context
+#
+#         else:
+#             return context
+
+
 def get_page_obj(obj, filtered_qs):
     paginated_filtered_obj = Paginator(filtered_qs, obj.paginate_by)
     page_number = obj.request.GET.get('page')

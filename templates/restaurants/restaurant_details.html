@@ -121,16 +121,13 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        {#                        <div class="container">#}
-                        {#                        <div class="card border-0" style="width: 40rem;">#}
-                        {#                            <div class="card-body">#}
                         <form method="post" action="{% url 'create_review' %}">
-                            <div class="row">
-                                <div class="col-6">
-                                    {% csrf_token %}
-                                    {% for field in form %}
-                                        <div class="container">
-                                            <div class="fieldWrapper">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-6">
+                                        {% csrf_token %}
+                                        {% for field in form %}
+                                            <div class="container">
                                                 {% if field.name == 'rating' %}
                                                     <div class="row">
                                                         <div class="col" style="display: inline">
@@ -158,13 +155,13 @@
                                                     </div>
                                                 {% endif %}
                                             </div>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                                <div class="col-2" style="text-align: end">
-                                    <input type="hidden" name="review_model" value="restaurant">
-                                    <input type="hidden" name="id" value="{{ restaurant.id }}">
-                                    <button type="submit" class="btn my-btn">Submit</button>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="col-2" style="text-align: end">
+                                        <input type="hidden" name="review_model" value="restaurant">
+                                        <input type="hidden" name="id" value="{{ restaurant.id }}">
+                                        <button type="submit" class="btn my-btn">Submit</button>
+                                    </div>
                                 </div>
                             </div>
                         </form>

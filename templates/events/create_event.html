@@ -1,22 +1,32 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add event{% endblock %}
 
 {% block content %}
-    <div class="container"><br><br>
+    <div class="container lgc"
+         style="background-image: url('{% static "images/background/lorena-tintea-u450hw1m_f0-unsplash.jpg" %}'); background-repeat: no-repeat;
+                 background-size: cover;"><br><br>
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="text-center">Create a new event</h3>
+                <div class="card shadow-lg p-3 mb-5 bg-body rounded">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <div class="card-body">
+                                        {{ form.as_p }}
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-4">
+                                <button class="btn my-btn border-0" type="submit"><strong>Add event</strong></button>
+                            </div>
+                        </div>
                     </div>
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="card-body">
-                            {{ form.as_p }}
-                        </div>
-                        <div class="card-footer text-center">
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>

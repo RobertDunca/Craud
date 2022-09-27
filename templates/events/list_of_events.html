@@ -93,6 +93,7 @@
                             <form method="GET">
                                 <div class="container">
                                     <div class="row">
+                                        {% csrf_token %}
                                         {% for field in filtered_events.form %}
                                             <div class="col-4" style="margin: auto">
                                                 {{ field.label }}{{ field }}
