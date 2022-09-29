@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, TemplateView, View
 from django.core.paginator import Paginator
+import folium
 
 from trip.filters import EventFilter, RestaurantFilter
 from trip.forms import EventForm, ReviewForm, ThingToDoForm
@@ -73,7 +74,13 @@ class EventDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
+
+        if self.object.lat and self.object.long:
+            my_map = create_map(self)
+            context['map'] = my_map
+
         context['form'] = ReviewForm()
+
         return context
 
 
@@ -110,6 +117,10 @@ class RestaurantDetailView(DetailView):
         context = super().get_context_data()
 
         other_restaurants = self.get_other_restaurants()
+
+        if self.object.lat and self.object.long:
+            my_map = create_map(self)
+            context['map'] = my_map
 
         context['type_restaurants'] = other_restaurants
         context['form'] = ReviewForm()
@@ -160,23 +171,32 @@ class HomeTemplateView(TemplateView):
     template_name = 'home/home.html'
 
 
-# def search_restaurants(request):
-#     if request.method == 'POST':
-#         searched = request.POST['searched']
-#         restaurants = Restaurant.objects.filter(name__contains=searched).order_by('-avg_rating')
-#         return render(request,
-#                       'search.html',
-#                       {'searched': searched,
-#                        'restaurants': restaurants})
-#     else:
-#         return render(request,
-#                       'search.html',
-#                       {})
-
-
 def get_page_obj(obj, filtered_qs):
     paginated_filtered_obj = Paginator(filtered_qs, obj.paginate_by)
     page_number = obj.request.GET.get('page')
-    restaurant_page_obj = paginated_filtered_obj.get_page(page_number)
+    page_obj = paginated_filtered_obj.get_page(page_number)
 
-    return restaurant_page_obj
+    return page_obj
+
+
+def create_map(obj):
+    coordinates = [obj.object.lat, obj.object.long]
+    my_map = folium.Map(coordinates, zoom_start=17)
+    icon, color = 'circle', 'blue'
+
+    if obj.model == Restaurant:
+        icon, color = 'cutlery', 'red'
+    elif obj.model == ThingToDo:
+        icon, color = 'binoculars', 'green'
+    elif obj.model == Event:
+        icon, color = 'calendar', 'purple'
+
+    folium.Marker(
+        coordinates,
+        tooltip=f'{obj.object.name}',
+        icon=folium.Icon(color=color, prefix='fa', icon=icon)
+    ).add_to(my_map)
+
+    my_map = my_map._repr_html_()
+
+    return my_map

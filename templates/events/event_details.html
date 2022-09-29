@@ -52,20 +52,48 @@
             <div class="col-5">
                 <div class="card" style="margin-top: 20px">
                     <div class="card-body">
-                        <h5 class="card-title">Contact</h5>
-                        <p>Address: {{ event.address }}</p>
-                        <p>
-                            Phone number:
-                            {% if event.contact_num %}{{ event.contact_num }}
-                            {% else %}no phone number available
-                            {% endif %}
-                        </p>
-                        <p>
-                            Website:
-                            {% if event.website_url %}{{ event.website_url }}
-                            {% else %}no website available
-                            {% endif %}
-                        </p>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5 class="card-title">Contact</h5>
+                                    <p>Address: {{ event.address }}</p>
+                                    <p>
+                                        Phone number:
+                                        {% if event.contact_num %}{{ event.contact_num }}
+                                        {% else %}no phone number available
+                                        {% endif %}
+                                    </p>
+                                    <p>
+                                        Website:
+                                        {% if event.website_url %}{{ event.website_url }}
+                                        {% else %}no website available
+                                        {% endif %}
+                                    </p>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn my-btn rounded-0" data-bs-toggle="modal"
+                                            data-bs-target="#map">
+                                        See map
+                                    </button>
+                                    <div class="modal fade" id="map" tabindex="-1"
+                                         aria-labelledby="map" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    {% if map %}
+                                                        {{ map | safe }}
+                                                    {% else %}
+                                                        <div class="container" style="text-align: center">
+                                                            <h4>Map is not available</h4>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

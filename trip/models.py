@@ -60,8 +60,8 @@ class Restaurant(models.Model):
     website_url = models.CharField(max_length=225, null=True, blank=True)
     contact_num = models.CharField(max_length=20, blank=True)
     address = models.CharField(max_length=50)
-    long = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
-    lat = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
+    long = models.DecimalField(max_digits=8, decimal_places=6, null=True, blank=True)
+    lat = models.DecimalField(max_digits=8, decimal_places=6, null=True, blank=True)
     reviews = models.ManyToManyField(Review, blank=True)
     avg_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True)
 
