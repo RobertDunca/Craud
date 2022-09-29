@@ -16,10 +16,8 @@ $('.text').each(function () {
 $(window).scroll(function () {
     if ($(this).scrollTop() > 200) {
         $('.fixed-element').css({'display': 'block'});
-    } else {
+    }
+    else {
         $('.fixed-element').css({'display': 'none'});
     }
 });
-
-
-

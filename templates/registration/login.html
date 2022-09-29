@@ -10,8 +10,8 @@ background-size: cover;"><br><br>
                 <div class="card shadow-lg p-3 mb-5 bg-body rounded">
                     <div class="container text-center">
                         <form method="post">
-                            {% csrf_token %}
                             <div class="card-body">
+                                {% csrf_token %}
                                 {{ form.as_p }}
                             </div>
                             <button class="btn my-btn border-0" type="submit"><strong>Log In</strong></button>

@@ -31,9 +31,11 @@
                                     <div class="row">
                                         {% csrf_token %}
                                         {% for field in filtered_restaurants.form %}
-                                            <div class="col-4" style="margin: auto">
-                                                {{ field.label }}{{ field }}
-                                            </div>
+                                            {% if field.label != 'Order by' %}
+                                                <div class="col-4" style="margin: auto">
+                                                    {{ field.label }}{{ field }}
+                                                </div>
+                                            {% endif %}
                                         {% endfor %}
                                     </div>
                                 </div>
@@ -41,10 +43,18 @@
                                     <button type="submit" class="btn my-btn rounded-0"><strong>Search</strong></button>
                                 </div>
                             </form>
-
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2" style="margin-top: 20px; margin-left: 20px;; padding-left: 90px">
+                <form method="get">
+                    {% csrf_token %}
+                    {{ filtered_restaurants.form.ordering.label }}
+                    {{ filtered_restaurants.form.ordering }}
+                </form>
             </div>
         </div>
         <div class="row">
@@ -73,7 +83,8 @@
                                                             <div class="col"
                                                                  style="display: flex; align-items: center; padding-bottom: 10px">
                                                                 <h5 class="rating">
-                                                                    {% if restaurant.avg_rating %}{{ restaurant.avg_rating }}
+                                                                    {% if restaurant.avg_rating %}
+                                                                        {{ restaurant.avg_rating }}
                                                                     {% else %} -
                                                                     {% endif %}
                                                                 </h5>
@@ -109,12 +120,16 @@
             <span class="step-links">
                 {% if restaurant_page_obj.has_previous %}
                     <a class="link page" href="{% get_url 1 'page' request.GET.urlencode %}">&laquo; First |</a>
-                    <a class="link page" href="{% get_url restaurant_page_obj.previous_page_number 'page' request.GET.urlencode %}"> Previous |</a>
+                    <a class="link page"
+                       href="{% get_url restaurant_page_obj.previous_page_number 'page' request.GET.urlencode %}"> Previous |</a>
                 {% endif %}
-                <a class="link page" href="{% get_url restaurant_page_obj.number 'page' request.GET.urlencode %}"> {{ restaurant_page_obj.number }} </a>
+                <a class="link page"
+                   href="{% get_url restaurant_page_obj.number 'page' request.GET.urlencode %}"> {{ restaurant_page_obj.number }} </a>
                 {% if restaurant_page_obj.has_next %}
-                    <a class="link page" href="{% get_url restaurant_page_obj.next_page_number 'page' request.GET.urlencode %}">| Next </a>
-                    <a class="link page" href="{% get_url restaurant_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">| Last &raquo;</a>
+                    <a class="link page"
+                       href="{% get_url restaurant_page_obj.next_page_number 'page' request.GET.urlencode %}">| Next </a>
+                    <a class="link page"
+                       href="{% get_url restaurant_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">| Last &raquo;</a>
                 {% endif %}
             </span>
             </div>

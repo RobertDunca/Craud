@@ -18,7 +18,7 @@ class TripFilter(django_filters.FilterSet):
     def __init__(self, *args, **kwargs):
         super(TripFilter, self).__init__(*args, **kwargs)
         self.filters['avg_rating'].field.widget.attrs.update({'class': 'form-control'})
-        self.filters['ordering'].field.widget.attrs.update({'class': 'form-control'})
+        self.filters['ordering'].field.widget.attrs.update({'class': 'form-control', 'onchange': 'submit()'})
 
     @classmethod
     def order(cls, qs, name, value):
