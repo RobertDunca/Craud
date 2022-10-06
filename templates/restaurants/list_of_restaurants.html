@@ -21,45 +21,68 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="margin-top: 40px">
             <div class="col">
-                <div class="container" style="padding-top: 20px">
-                    <div class="card filter-card">
-                        <div class="card-body">
-                            <form method="GET">
-                                <div class="container">
-                                    <div class="row">
-                                        {% csrf_token %}
-                                        {% for field in filtered_restaurants.form %}
-                                            {% if field.label != 'Order by' %}
-                                                <div class="col-4" style="margin: auto">
-                                                    {{ field.label }}{{ field }}
+                <div class="card rounded-0" style="border-right: 0; border-left: 0; border-bottom: 0">
+                    <div class="container">
+                        <div class="row" style="padding-top: 10px;">
+                            <div class="col-2">
+                                <form method="get">
+                                    {% csrf_token %}
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col center" style="padding-right: 5px">
+                                                {{ filtered_restaurants.form.ordering.label }}
+                                            </div>
+                                            <div class="col" style="padding-left: 0">
+                                                {{ filtered_restaurants.form.ordering }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-1 center" style="padding-left: 0">
+                                <a class="link" data-bs-toggle="collapse" href="#collapseFilter" role="button"
+                                   aria-expanded="false" aria-controls="collapseFilter">
+                                    Filters
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top: 10px">
+                            <div class="col">
+                                <div class="collapse" id="collapseFilter">
+                                    <div class="card filter-card">
+                                        <div class="card-body">
+                                            <form method="GET">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        {% csrf_token %}
+                                                        {% for field in filtered_restaurants.form %}
+                                                            {% if field.label != 'Order by' %}
+                                                                <div class="col-4" style="margin: auto">
+                                                                    {{ field.label }}{{ field }}
+                                                                </div>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </div>
                                                 </div>
-                                            {% endif %}
-                                        {% endfor %}
+                                                <div class="container center" style="padding-top: 15px">
+                                                    <button type="submit" class="btn my-btn rounded-0">
+                                                        <strong>Search</strong></button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="container center" style="padding-top: 15px">
-                                    <button type="submit" class="btn my-btn rounded-0"><strong>Search</strong></button>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-2" style="margin-top: 20px; margin-left: 20px;; padding-left: 90px">
-                <form method="get">
-                    {% csrf_token %}
-                    {{ filtered_restaurants.form.ordering.label }}
-                    {{ filtered_restaurants.form.ordering }}
-                </form>
-            </div>
-        </div>
-        <div class="row">
             <div class="col">
-                <div class="container" style="padding-top: 20px">
+                <div class="container" style="padding-top: 10px">
                     {% for restaurant in restaurant_page_obj %}
                         <div class="row">
                             <div class="col">
