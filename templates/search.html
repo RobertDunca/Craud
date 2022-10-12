@@ -1,18 +1,161 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="col">
+            <div class="col" style="margin-bottom: 20px">
                 {% if searched %}
-                    <h1>You searched for {{ searched }}</h1>
-                    {% for restaurant in restaurants %}<h5>{{ restaurant.name }}</h5>{% endfor %}
-{#                    {% for event in events %}<h5>{{ event.name }}</h5>{% endfor %}#}
-{#                    {% for thing_to_do in things_to_do %}<h5>{{ thing_to_do.name }}</h5>{% endfor %}#}
+                    <h1>You searched for "{{ searched }}"</h1>
                 {% else %}
-                    <h1>You didn't search for anything</h1>
+                    <h1>You didn't search for anything...</h1>
                 {% endif %}
             </div>
         </div>
+        {% if restaurants %}
+            <div class="row">
+                <div class="col">
+                    <div class="card border-0">
+                        <div class="card-header bg-white">
+                            <h2>Restaurants</h2>
+                        </div>
+                        <div class="card-body">
+                            {% for restaurant in restaurants %}
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card trip-card {% if forloop.counter|divisibleby:2 %}second{% endif %}">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="container center" style="height: 200px">
+                                                            <a href="{% url 'restaurant_details' restaurant.id %}">
+                                                                <img src="{{ restaurant.photo.url }}"
+                                                                     class="ph my-shadow"
+                                                                     alt="..."></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <div class="card-body" style="height: 200px">
+                                                            <a href="{% url 'restaurant_details' restaurant.id %}"
+                                                               class="link"
+                                                               style="color: black">
+                                                                <h4>{{ restaurant.name }}</h4></a>
+                                                            <div class="container">
+                                                                <div class="row">
+                                                                    <div class="col"
+                                                                         style="display: flex; align-items: center; padding-bottom: 10px">
+                                                                        <h5 class="rating">
+                                                                            {% if restaurant.avg_rating %}
+                                                                                {{ restaurant.avg_rating }}
+                                                                            {% else %} -
+                                                                            {% endif %}
+                                                                        </h5>
+                                                                        <img alt="..."
+                                                                             style="height: 25px; padding-right: 5px"
+                                                                             src="{% static 'images/135-1353166_star-icon-good-icon-png-transparent-png-removebg-preview.png' %}">
+                                                                        <p style="margin-bottom: 0"><small
+                                                                                class="text-muted">
+                                                                            {{ restaurant.reviews.count }}
+                                                                            {% if restaurant.reviews.count == 1 %}
+                                                                                review{% else %}reviews{% endif %}
+                                                                        </small></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <p class="card-text text">{{ restaurant.description }}</p>
+                                                            <p class="card-text"><small class="text-muted">
+                                                                {{ restaurant.address }}
+                                                            </small></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>{% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if events %}
+            <div class="row">
+                <div class="col">
+                    <div class="card border-0">
+                        <div class="card-header bg-white">
+                            <h2>Events</h2>
+                        </div>
+                        <div class="card-body">
+                            {% for event in events %}
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card trip-card {% if forloop.counter|divisibleby:2 %}second{% endif %}">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="container center" style="height: 200px">
+                                                            <a href="{% url 'event_details' event.id %}">
+                                                                <img src="{{ event.photo.url }}" class="ph my-shadow"
+                                                                     alt="..."></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <div class="card-body" style="height: 200px">
+                                                            <a href="{% url 'event_details' event.id %}" class="link"
+                                                               style="color: black">
+                                                                <h4>{{ event.name }}</h4></a>
+                                                            <div class="container">
+                                                                <div class="row">
+                                                                    <div class="col"
+                                                                         style="display: flex; align-items: center; padding-bottom: 10px">
+                                                                        <h5 class="rating">
+                                                                            {% if event.avg_rating %}
+                                                                                {{ event.avg_rating }}
+                                                                            {% else %} -
+                                                                            {% endif %}
+                                                                        </h5>
+                                                                        <img alt="..."
+                                                                             style="height: 25px; padding-right: 5px"
+                                                                             src="{% static 'images/135-1353166_star-icon-good-icon-png-transparent-png-removebg-preview.png' %}">
+                                                                        <p style="margin-bottom: 0"><small
+                                                                                class="text-muted">
+                                                                            {{ event.reviews.count }}
+                                                                            {% if event.reviews.count == 1 %}
+                                                                                review{% else %}reviews{% endif %}
+                                                                        </small></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <p class="card-text text">{{ event.description }}</p>
+                                                            <p class="card-text"><small class="text-muted">
+                                                                {{ event.start_date }} - {{ event.end_date }}
+                                                            </small></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if things_to_do %}
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Things to do</h2>
+                        </div>
+                        <div class="card-body">
+                            {% for ttd in things_to_do %}<h5>{{ ttd.name }}</h5>{% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

@@ -30,5 +30,5 @@ class UserExtendForm(UserCreationForm):
         self.fields['password1'].widget.attrs['class'] = 'form-control'
         self.fields['password2'].widget.attrs['class'] = 'form-control'
 
-        for fieldname in ['password1', 'password2']:
-            self.fields[fieldname].help_text = None
+        for field_name in ['password1', 'password2']:
+            self.fields[field_name].help_text = None

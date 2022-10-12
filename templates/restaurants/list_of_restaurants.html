@@ -26,12 +26,12 @@
                 <div class="card rounded-0" style="border-right: 0; border-left: 0; border-bottom: 0">
                     <div class="container">
                         <div class="row" style="padding-top: 10px;">
-                            <div class="col-2">
+                            <div class="col-2" style="padding-right: 5px">
                                 <form method="get">
                                     {% csrf_token %}
                                     <div class="container">
                                         <div class="row">
-                                            <div class="col center" style="padding-right: 5px">
+                                            <div class="col center" style="padding-right: 0; padding-left: 0">
                                                 {{ filtered_restaurants.form.ordering.label }}
                                             </div>
                                             <div class="col" style="padding-left: 0">
