@@ -181,3 +181,26 @@ h4 {
     padding-top: 8px;
     padding-bottom: 8px;
 }
+
+.my-border {
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-image: linear-gradient(to right, #5d781b, #B3A938, #FBCA6B) 1;
+    animation: 5s rotate linear infinite;
+}
+
+.base-container {
+    margin-top: 90px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    background-color: white;
+    margin-bottom: 20px;
+}
+
+.no-pad {
+    padding: 0;
+}
+
+.no-mrg {
+    margin: 0;
+}

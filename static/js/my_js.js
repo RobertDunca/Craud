@@ -14,7 +14,7 @@ $('.text').each(function () {
 // reveal search bar after scrolling 200px
 
 $(window).scroll(function () {
-    if ($(this).scrollTop() > 200) {
+    if ($(this).scrollTop() > 230) {
         $('.fixed-element').css({'display': 'block'});
     }
     else {

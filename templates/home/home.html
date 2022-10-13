@@ -15,10 +15,13 @@
                                 <div class="container text-center">
                                     <form class="d-flex border-0" method='POST' action="{% url 'search' %}">
                                         {% csrf_token %}
-                                        <input class="form-control me-2 border-0 shadow-none" type="search" placeholder="Events / Restaurants / Things to do"
+                                        <input class="form-control me-2 border-0 shadow-none" type="search"
+                                               placeholder="Events / Restaurants / Things to do"
                                                aria-label="Search"
                                                name="searched">
-                                        <button class="btn search-btn border-0" type="submit"><img class="search-svg" src="{% static 'images/search.svg' %}" alt="..." style="height: 50px"></button>
+                                        <button class="btn search-btn border-0" type="submit"><img
+                                                class="search-svg" src="{% static 'images/search.svg' %}"
+                                                alt="..." style="height: 50px"></button>
                                     </form>
                                 </div>
                             </div>
@@ -27,67 +30,42 @@
                 </div>
             </div>
         </div>
-        <div class="row center" style="padding-bottom: 20px">
-            <div class="col">
-                <div class="row">
-                    <div class="container" style="text-align: center;">
-                        <p> &emsp;Welcome to Craud! Craud is a Django based web application, similar with TripAdvisor.
-                            You can
-                            search
-                            for places to eat, events to take part in and other things to do in the city of Cluj-Napoca.
-                            Sign
-                            up and you'll be able to leave reviews or add an event of your own. Start today!</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="container center">
-                        <a class="btn my-btn rounded-0" href="{% url 'create_user' %}" role="button">Get started!</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="container">
-                    <img src="{% static 'images/background/pngegg.png' %}" style="height: 500px" alt="...">
-                </div>
-            </div>
-        </div>
-        <div class="row" style="background-color: rgba(251, 202, 107, 0.5); margin-right: -24px; margin-left: -24px">
-            <div class="col">
-                <div class="card rounded-0" style="background-color: rgba(251, 202, 107, 0); border-width: 0">
-                    <div class="container" style="padding-top: 30px; padding-bottom: 30px">
-                        <div class="row">
-                            <div class="col">
-                                <div class="card my-shadow text-center rounded-0" style=" border-width: 0;">
-                                    <img src="{% static 'images/events/piata-unirii-deschidere_25_05_2018-marius-maris_print-1095.jpg' %}"
-                                         class="card-img-top rounded-0" alt="..."
-                                         style="height: 200px; object-fit: cover;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Find a new event</h5>
-                                        <a href="{% url 'all_events' %}" class="btn rounded-0 my-btn">Events</a>
-                                    </div>
+    <div class="row" style="background-color: rgba(251, 202, 107, 0.5); margin-right: -24px; margin-left: -24px">
+        <div class="col">
+            <div class="card rounded-0" style="background-color: rgba(251, 202, 107, 0); border-width: 0">
+                <div class="container" style="padding-top: 30px; padding-bottom: 30px">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card my-shadow text-center rounded-0" style=" border-width: 0;">
+                                <img src="{% static 'images/events/piata-unirii-deschidere_25_05_2018-marius-maris_print-1095.jpg' %}"
+                                     class="card-img-top rounded-0" alt="..."
+                                     style="height: 200px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title">Find a new event</h5>
+                                    <a href="{% url 'all_events' %}" class="btn rounded-0 my-btn">Events</a>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="card my-shadow text-center rounded-0" style=" border-width: 0;">
-                                    <img src="{% static 'images/restaurants/depositphotos_174411266-stock-photo-friends-toasting-at-dinner-party.jpg' %}"
-                                         class="card-img-top rounded-0" alt="..."
-                                         style="height: 200px; object-fit: cover;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Search for a place to eat</h5>
-                                        <a href="{% url 'all_restaurants' %}"
-                                           class="btn rounded-0 my-btn">Restaurants</a>
-                                    </div>
+                        </div>
+                        <div class="col">
+                            <div class="card my-shadow text-center rounded-0" style=" border-width: 0;">
+                                <img src="{% static 'images/restaurants/depositphotos_174411266-stock-photo-friends-toasting-at-dinner-party.jpg' %}"
+                                     class="card-img-top rounded-0" alt="..."
+                                     style="height: 200px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title">Search for a place to eat</h5>
+                                    <a href="{% url 'all_restaurants' %}"
+                                       class="btn rounded-0 my-btn">Restaurants</a>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="card my-shadow text-center rounded-0" style=" border-width: 0;">
-                                    <img src="{% static 'images/things_to_do/Mina-Rudolf-2.jpg' %}"
-                                         class="card-img-top rounded-0" alt="..."
-                                         style="height: 200px; object-fit: cover;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">What to do</h5>
-                                        <a href="{% url 'all_ttd' %}" class="btn rounded-0 my-btn">Things to do</a>
-                                    </div>
+                        </div>
+                        <div class="col">
+                            <div class="card my-shadow text-center rounded-0" style=" border-width: 0;">
+                                <img src="{% static 'images/things_to_do/Mina-Rudolf-2.jpg' %}"
+                                     class="card-img-top rounded-0" alt="..."
+                                     style="height: 200px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title">What to do</h5>
+                                    <a href="{% url 'all_ttd' %}" class="btn rounded-0 my-btn">Things to do</a>
                                 </div>
                             </div>
                         </div>
@@ -95,5 +73,6 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 {% endblock %}
