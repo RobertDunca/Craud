@@ -32,3 +32,13 @@ class UserExtendForm(UserCreationForm):
 
         for field_name in ['password1', 'password2']:
             self.fields[field_name].help_text = None
+
+    def clean(self):
+        super(UserExtendForm, self).clean()
+
+        emails = User.objects.values_list('email', flat=True)
+        email = self.cleaned_data.get('email')
+
+        if email in emails:
+            self.add_error('email', 'This email is already in use!')
+
