@@ -49,6 +49,14 @@ class EventCreateView(LoginRequiredMixin, CreateView):
     form_class = EventForm
     success_url = reverse_lazy('create_new_event')
 
+    def form_valid(self, form):
+        if form.is_valid():
+            event = form.save(commit=False)
+            event.creator = self.request.user
+            event.save()
+
+            return redirect(self.success_url)
+
 
 class EventListView(ListView):
     template_name = 'events/list_of_events.html'

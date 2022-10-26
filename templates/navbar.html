@@ -30,14 +30,24 @@
             </ul>
             <form class="d-flex" method='POST' action="{% url 'search' %}" style="margin-right: 40px;">
                 {% csrf_token %}
-                <input class="form-control me-2 shadow-none {% if request.get_full_path == "/" %}fixed-element{% endif %}" type="search" aria-label="Search" name="searched" style=" border-radius: 20px">
-                <button class="btn search-btn border-0 {% if request.get_full_path == "/" %}fixed-element{% endif %}" type="submit"><img class="search-svg" src="{% static 'images/search.svg' %}" alt="..."></button>
+                <input class="form-control me-2 shadow-none {% if request.get_full_path == "/" %}fixed-element{% endif %}"
+                       type="search" aria-label="Search" name="searched" style=" border-radius: 20px">
+                <button class="btn search-btn border-0 {% if request.get_full_path == "/" %}fixed-element{% endif %}"
+                        type="submit"><img class="search-svg" src="{% static 'images/search.svg' %}" alt="..."></button>
             </form>
-            <ul class="navbar-nav  mb-2 mb-lg-0">
+            <ul class="navbar-nav mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
-                    <a class="nav-btn btn" href="{% url 'logout' %}"><strong>
-                        Logout, {{ request.user.username }}
-                    </strong></a>
+                    <div class="dropdown">
+                        <a class="nav-btn btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <strong>@{{ request.user.username }}</strong>
+                        </a>
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <li><a class="dropdown-item" href="{% url 'user_details' request.user.id %}"><strong>Your profile</strong></a></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Log out</a></li>
+                        </ul>
+                    </div>
                 {% else %}
                     <a class="nav-btn btn" href="{% url 'login' %}"><strong>
                         Log In

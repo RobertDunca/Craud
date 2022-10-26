@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}All user events{% endblock %}
+
+{% block content %}
+{#    {% if events %}#}
+            {% for event in events %}
+                <p>{{ event.name }}</p>
+            {% endfor %}
+{#    {% endif %}#}
+{% endblock %}

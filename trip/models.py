@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from modelcluster.fields import ParentalManyToManyField
 
 from userextend.models import User
 
@@ -31,7 +32,7 @@ class Event(models.Model):
     long = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
     lat = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    reviews = models.ManyToManyField(Review, blank=True)
+    reviews = ParentalManyToManyField(Review, blank=True)
     avg_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True)
 
     active = models.BooleanField(default=True)
@@ -43,9 +44,12 @@ class Event(models.Model):
 
     def clean(self):
         ratings = [r.rating for r in self.reviews.all()]
-        avg = sum(ratings) / len(ratings)
-        avg = round(avg, 1)
-        self.avg_rating = 1 if len(ratings) == 0 else avg
+        if len(ratings):
+            avg = sum(ratings) / len(ratings)
+            avg = round(avg, 1)
+            self.avg_rating = avg
+        else:
+            self.avg_rating = 1
 
 
 class Restaurant(models.Model):

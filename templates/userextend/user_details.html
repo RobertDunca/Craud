@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Your profile{% endblock %}
+
+{% block content %}
+    <div class="container lgc"
+         style="background-image: url('{% static "images/background/lorena-tintea-u450hw1m_f0-unsplash.jpg" %}'); background-repeat: no-repeat;
+                 background-size: cover;">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card my-shadow lg-card rounded">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <div class="card-body">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5>First name: {{ request.user.first_name }}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5>Last name: {{ request.user.last_name }}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5>Username: {{ request.user.username }}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5>Email: {{ request.user.email }}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card my-shadow lg-card rounded">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <div class="card-body">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <a class="btn my-btn" href="{% url 'update_user' request.user.id %}"
+                                                   role="button">
+                                                    <strong>Update profile</strong>
+                                                </a>
+                                            </div>
+                                            <div class="col-4">
+                                                <a class="btn my-btn" href="{% url 'user_events' request.user.id %}"
+                                                   role="button">
+                                                    <strong>See your events</strong>
+                                                </a>
+                                            </div>
+                                            <div class="col-4">
+                                                <a class="btn my-btn" href="{% url 'delete_user' request.user.id %}"
+                                                   role="button">
+                                                    <strong>Delete your account</strong>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

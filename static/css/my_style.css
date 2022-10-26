@@ -19,8 +19,8 @@
     background-color: #b3a938;
     padding-top: 100px;
     padding-bottom: 100px;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    margin-top: 140px;
+    margin-bottom: 70px;
 }
 
 .hlgc {
@@ -191,10 +191,13 @@ h4 {
 
 .base-container {
     margin-top: 90px;
-    padding-bottom: 20px;
-    padding-top: 20px;
+    padding: 0;
     background-color: white;
     margin-bottom: 20px;
+}
+
+.main-container {
+    padding: 20px
 }
 
 .no-pad {
@@ -203,4 +206,11 @@ h4 {
 
 .no-mrg {
     margin: 0;
+}
+
+.lg-card {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-top: 40px;
+    margin-bottom: 40px;
 }
