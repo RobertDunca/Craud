@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-    <div class="container">
+    <div class="container main-container">
         <div class="row">
             <div class="col" style="margin-bottom: 20px">
                 {% if searched %}
@@ -146,12 +146,63 @@
         {% if things_to_do %}
             <div class="row">
                 <div class="col">
-                    <div class="card">
-                        <div class="card-header">
+                    <div class="card border-0">
+                        <div class="card-header bg-white">
                             <h2>Things to do</h2>
                         </div>
                         <div class="card-body">
-                            {% for ttd in things_to_do %}<h5>{{ ttd.name }}</h5>{% endfor %}
+                            {% for ttd in things_to_do %}
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card trip-card {% if forloop.counter|divisibleby:2 %}second{% endif %}">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="container center" style="height: 200px">
+                                                            <a href="{% url 'ttd_details' ttd.id %}">
+                                                                <img src="{{ ttd.photo.url }}" class="ph my-shadow"
+                                                                     alt="..."></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <div class="card-body" style="height: 200px">
+                                                            <a href="{% url 'ttd_details' ttd.id %}" class="link"
+                                                               style="color: black">
+                                                                <h4>{{ ttd.name }}</h4></a>
+                                                            <div class="container">
+                                                                <div class="row">
+                                                                    <div class="col"
+                                                                         style="display: flex; align-items: center; padding-bottom: 10px">
+                                                                        <h5 class="rating">
+                                                                            {% if ttd.avg_rating %}
+                                                                                {{ ttd.avg_rating }}
+                                                                            {% else %} -
+                                                                            {% endif %}
+                                                                        </h5>
+                                                                        <img alt="..."
+                                                                             style="height: 25px; padding-right: 5px"
+                                                                             src="{% static 'images/135-1353166_star-icon-good-icon-png-transparent-png-removebg-preview.png' %}">
+                                                                        <p style="margin-bottom: 0"><small
+                                                                                class="text-muted">
+                                                                            {{ ttd.reviews.count }}
+                                                                            {% if ttd.reviews.count == 1 %}
+                                                                                review{% else %}reviews{% endif %}
+                                                                        </small></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <p class="card-text text">{{ ttd.description }}</p>
+                                                            <p class="card-text"><small class="text-muted">
+                                                                {{ ttd.start_date }} - {{ tdd.end_date }}
+                                                            </small></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

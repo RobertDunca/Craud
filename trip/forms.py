@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import TextInput, DateTimeInput, Textarea, NumberInput, Select, ClearableFileInput
+from django.forms import TextInput, DateTimeInput, Textarea, NumberInput, Select, FileInput
 
 from trip.models import Event, Restaurant, ThingToDo, Review
 
@@ -12,7 +12,7 @@ class EventForm(forms.ModelForm):
         widgets = {
             'name': TextInput(attrs={'placeholder': 'Please enter event name', 'class': 'form-control'}),
             'description': Textarea(attrs={'placeholder': 'Please enter event description', 'class': 'form-control'}),
-            'photo': ClearableFileInput(attrs={'class': 'form-control'}),
+            'photo': FileInput(attrs={'class': 'form-control'}),
             'start_date': DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
             'end_date': DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
             'website_url': TextInput(attrs={'placeholder': 'Please enter event website url', 'class': 'form-control',
@@ -37,7 +37,7 @@ class RestaurantForm(forms.ModelForm):
             'type': Select(attrs={'class': 'form-select'}),
             'description': Textarea(attrs={'placeholder': 'Please enter restaurant description',
                                            'class': 'form-control'}),
-            'photo': ClearableFileInput(attrs={'class': 'form-control'}),
+            'photo': FileInput(attrs={'class': 'form-control'}),
             'website_url': TextInput(attrs={'placeholder': 'Please enter restaurant website url',
                                             'class': 'form-control', 'required': False}),
             'contact_num': TextInput(attrs={'placeholder': 'Please enter restaurant contact number',
@@ -63,7 +63,8 @@ class ThingToDoForm(forms.ModelForm):
                                             'class': 'form-control', 'required': False}),
             'contact_num': TextInput(attrs={'placeholder': 'Please enter contact number',
                                             'class': 'form-control', 'required': False}),
-            'address': TextInput(attrs={'placeholder': 'Please enter address', 'class': 'form-control'}),
+            'address': TextInput(attrs={'placeholder': 'Please enter address', 'class': 'form-control',
+                                        'required': False}),
             'long': NumberInput(attrs={'placeholder': 'Please enter longitude', 'class': 'form-control',
                                        'required': False}),
             'lat': NumberInput(attrs={'placeholder': 'Please enter latitude', 'class': 'form-control',

@@ -190,7 +190,7 @@ h4 {
 }
 
 .base-container {
-    margin-top: 90px;
+    margin-top: 50px;
     padding: 0;
     background-color: white;
     margin-bottom: 20px;
@@ -213,4 +213,9 @@ h4 {
     padding-bottom: 20px;
     margin-top: 40px;
     margin-bottom: 40px;
+}
+
+.home-card {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }

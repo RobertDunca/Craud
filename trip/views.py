@@ -5,7 +5,7 @@ from django.views.generic import ListView, CreateView, DetailView, TemplateView,
 from django.core.paginator import Paginator
 import folium
 
-from trip.filters import EventFilter, RestaurantFilter
+from trip.filters import EventFilter, RestaurantFilter, ThingToDoFilter
 from trip.forms import EventForm, ReviewForm, ThingToDoForm
 from trip.models import Event, Restaurant, Review, ThingToDo
 
@@ -35,7 +35,7 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
                 restaurant.reviews.add(review)
                 restaurant.full_clean()
                 restaurant.save()
-            elif review_model == 'thing':
+            elif review_model == 'thing_to_do':
                 thing_to_do = ThingToDo.objects.get(pk=id_)
                 thing_to_do.reviews.add(review)
                 thing_to_do.full_clean()
@@ -47,7 +47,7 @@ class EventCreateView(LoginRequiredMixin, CreateView):
     template_name = 'events/create_event.html'
     model = Event
     form_class = EventForm
-    success_url = reverse_lazy('create_new_event')
+    success_url = 'home'
 
     def form_valid(self, form):
         if form.is_valid():
@@ -153,12 +153,50 @@ class ThingToDoCreateView(PermissionRequiredMixin, CreateView):
 class ThingToDoListView(ListView):
     template_name = 'things_to_do/all_ttd.html'
     model = ThingToDo
+    paginate_by = 5
     context_object_name = 'all_ttd'
+
+    def get_context_data(self, **kwargs):
+        data = super(ThingToDoListView, self).get_context_data()
+
+        filtered_ttds = ThingToDoFilter(self.request.GET, queryset=ThingToDo.objects.all())
+        ttd_page_obj = get_page_obj(self, filtered_ttds.qs)
+
+        data['filtered_ttds'] = filtered_ttds
+        data['ttd_page_obj'] = ttd_page_obj
+
+        return data
+
+
+class ThingToDoDetailView(DetailView):
+    template_name = 'things_to_do/ttd_details.html'
+    model = ThingToDo
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+
+        other_ttds = self.get_other_ttds()
+
+        if self.object.lat and self.object.long:
+            my_map = create_map(self)
+            context['map'] = my_map
+
+        context['type_ttds'] = other_ttds
+        context['form'] = ReviewForm()
+
+        return context
+
+    def get_other_ttds(self):
+        all_ttds = ThingToDo.objects.all().order_by('-avg_rating')
+        type_ttds = filter(lambda t: t.type == self.object.type and t != self.object, all_ttds)
+        things_to_do = list(type_ttds)[:4]
+
+        return things_to_do
 
 
 class SearchListView(View):
-    @classmethod
-    def post(cls, request):
+
+    def post(self, request):
         searched = request.POST['searched']
 
         restaurants = Restaurant.objects.filter(name__contains=searched).order_by('-avg_rating')
@@ -190,8 +228,8 @@ def get_page_obj(obj, filtered_qs):
 def create_map(obj):
     coordinates = [obj.object.lat, obj.object.long]
     my_map = folium.Map(coordinates, zoom_start=17)
-    icon, color = 'circle', 'blue'
 
+    icon, color = '', ''
     if obj.model == Restaurant:
         icon, color = 'cutlery', 'red'
     elif obj.model == ThingToDo:

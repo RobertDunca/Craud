@@ -136,10 +136,9 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col center" style="padding-top: 20px">
-            <div class="pagination">
+        <div class="row">
+            <div class="col center" style="padding-top: 20px">
+                <div class="pagination">
             <span class="step-links">
                 {% if restaurant_page_obj.has_previous %}
                     <a class="link page" href="{% get_url 1 'page' request.GET.urlencode %}">&laquo; First |</a>
@@ -155,6 +154,7 @@
                        href="{% get_url restaurant_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">| Last &raquo;</a>
                 {% endif %}
             </span>
+                </div>
             </div>
         </div>
     </div>

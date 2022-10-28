@@ -1,12 +1,80 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}All user events{% endblock %}
+{% block title %}My events{% endblock %}
 
 {% block content %}
-{#    {% if events %}#}
-            {% for event in events %}
-                <p>{{ event.name }}</p>
-            {% endfor %}
-{#    {% endif %}#}
+    <div class="container main-container">
+        <div class="row">
+            <div class="col">
+                <div class="container"
+                     style="background-image: url('{% static "images/events/piata-unirii-deschidere_25_05_2018-marius-maris_print-1095.jpg" %}'); background-repeat: no-repeat;
+                             background-size: cover; padding: 0">
+                    <div class="container" style="background-color: rgba(0,0,0,.5); color: #fff; height: 350px">
+                        <div class="container center" style="height: 350px">
+                            <h1 class="my-title"
+                                style="text-shadow: 1px 1px 2px black,0 0 25px #fbca6b">
+                                <strong>My events</strong>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="container" style="padding-top: 20px">
+                    {% for event in events %}
+                        <div class="row">
+                            <div class="col">
+                                <div class="card trip-card {% if forloop.counter|divisibleby:2 %}second{% endif %}">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="container center" style="height: 200px">
+                                                    <a href="{% url 'event_details' event.id %}">
+                                                        <img src="{{ event.photo.url }}" class="ph my-shadow"
+                                                             alt="..."></a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body" style="height: 200px">
+                                                    <a href="{% url 'event_details' event.id %}" class="link"
+                                                       style="color: black">
+                                                        <h4>{{ event.name }}</h4></a>
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col"
+                                                                 style="display: flex; align-items: center; padding-bottom: 10px">
+                                                                <h5 class="rating">
+                                                                    {% if event.avg_rating %}{{ event.avg_rating }}
+                                                                    {% else %} -
+                                                                    {% endif %}
+                                                                </h5>
+                                                                <img alt="..." style="height: 25px; padding-right: 5px"
+                                                                     src="{% static 'images/135-1353166_star-icon-good-icon-png-transparent-png-removebg-preview.png' %}">
+                                                                <p style="margin-bottom: 0"><small class="text-muted">
+                                                                    {{ event.reviews.count }}
+                                                                    {% if event.reviews.count == 1 %}
+                                                                        review{% else %}reviews{% endif %}
+                                                                </small></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p class="card-text text">{{ event.description }}</p>
+                                                    <p class="card-text"><small class="text-muted">
+                                                        {{ event.start_date }} - {{ event.end_date }}
+                                                    </small></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

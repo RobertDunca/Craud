@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load trip_tags %}
+
+{% block title %}Things to do{% endblock %}
+{% block content %}
+    <div class="container main-container">
+        <div class="row">
+            <div class="col">
+                <div class="container"
+                     style="background-image: url('{% static "images/things_to_do/Mina-Rudolf-2_GKojIl9.jpg" %}'); background-repeat: no-repeat;
+                             background-size: cover; padding: 0">
+                    <div class="container" style="background-color: rgba(0,0,0,.5); color: #fff; height: 350px">
+                        <div class="container center" style="height: 350px">
+                            <h1 class="my-title"
+                                style="text-shadow: 1px 1px 2px black,0 0 25px #fbca6b">
+                                <strong>Things to do</strong>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 40px">
+            <div class="col">
+                <div class="card rounded-0" style="border-right: 0; border-left: 0; border-bottom: 0">
+                    <div class="container">
+                        <div class="row" style="padding-top: 10px;">
+                            <div class="col-2" style="padding-right: 5px">
+                                <form method="get">
+                                    {% csrf_token %}
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col center" style="padding-right: 0; padding-left: 0">
+                                                {{ filtered_ttds.form.ordering.label }}
+                                            </div>
+                                            <div class="col" style="padding-left: 0">
+                                                {{ filtered_ttds.form.ordering }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-1 center" style="padding-left: 0">
+                                <a class="link" data-bs-toggle="collapse" href="#collapseFilter" role="button"
+                                   aria-expanded="false" aria-controls="collapseFilter">
+                                    Filters
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top: 10px">
+                            <div class="col">
+                                <div class="collapse" id="collapseFilter">
+                                    <div class="card filter-card">
+                                        <div class="card-body">
+                                            <form method="GET">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        {% csrf_token %}
+                                                        {% for field in filtered_ttds.form %}
+                                                            {% if field.label != 'Order by' %}
+                                                                <div class="col-4" style="margin: auto">
+                                                                    {{ field.label }}{{ field }}
+                                                                </div>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                                <div class="container center" style="padding-top: 15px">
+                                                    <button type="submit" class="btn my-btn rounded-0">
+                                                        <strong>Search</strong></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="container" style="padding-top: 10px">
+                    {% for ttd in ttd_page_obj %}
+                        <div class="row">
+                            <div class="col">
+                                <div class="card trip-card {% if forloop.counter|divisibleby:2 %}second{% endif %}">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="container center" style="height: 200px">
+                                                    <a href="{% url 'ttd_details' ttd.id %}">
+                                                        <img src="{{ ttd.photo.url }}" class="ph my-shadow"
+                                                             alt="..."></a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body" style="height: 200px">
+                                                    <a href="{% url 'ttd_details' ttd.id %}" class="link"
+                                                       style="color: black">
+                                                        <h4>{{ ttd.name }}</h4></a>
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col"
+                                                                 style="display: flex; align-items: center; padding-bottom: 10px">
+                                                                <h5 class="rating">
+                                                                    {% if ttd.avg_rating %}
+                                                                        {{ ttd.avg_rating }}
+                                                                    {% else %} -
+                                                                    {% endif %}
+                                                                </h5>
+                                                                <img alt="..." style="height: 25px; padding-right: 5px"
+                                                                     src="{% static 'images/135-1353166_star-icon-good-icon-png-transparent-png-removebg-preview.png' %}">
+                                                                <p style="margin-bottom: 0"><small class="text-muted">
+                                                                    {{ ttd.reviews.count }}
+                                                                    {% if ttd.reviews.count == 1 %}
+                                                                        review{% else %}reviews{% endif %}
+                                                                </small></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p class="card-text text">{{ ttd.description }}</p>
+                                                    {% if ttd.address %}
+                                                        <p class="card-text"><small class="text-muted">
+                                                            {{ ttd.address }}
+                                                        </small></p>
+                                                    {% else %}
+                                                        <p class="card-text"><small class="text-muted">
+                                                            No address available
+                                                        </small></p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col center" style="padding-top: 20px">
+                <div class="pagination">
+            <span class="step-links">
+                {% if ttd_page_obj.has_previous %}
+                    <a class="link page" href="{% get_url 1 'page' request.GET.urlencode %}">&laquo; First |</a>
+                    <a class="link page"
+                       href="{% get_url ttd_page_obj.previous_page_number 'page' request.GET.urlencode %}"> Previous |</a>
+                {% endif %}
+                <a class="link page"
+                   href="{% get_url ttd_page_obj.number 'page' request.GET.urlencode %}"> {{ ttd_page_obj.number }} </a>
+                {% if ttd_page_obj.has_next %}
+                    <a class="link page"
+                       href="{% get_url ttd_page_obj.next_page_number 'page' request.GET.urlencode %}">| Next </a>
+                    <a class="link page"
+                       href="{% get_url ttd_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">| Last &raquo;</a>
+                {% endif %}
+            </span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

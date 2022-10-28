@@ -1,4 +1,4 @@
-from trip.models import Event, Restaurant
+from trip.models import Event, Restaurant, ThingToDo
 import django_filters
 
 
@@ -20,8 +20,7 @@ class TripFilter(django_filters.FilterSet):
         self.filters['avg_rating'].field.widget.attrs.update({'class': 'form-control'})
         self.filters['ordering'].field.widget.attrs.update({'class': 'form-control', 'onchange': 'submit()'})
 
-    @classmethod
-    def order(cls, qs, name, value):
+    def order(self, qs, name, value):
         if value == 'created':
             expression = 'created_at'
         elif value == 'rating':
@@ -58,3 +57,19 @@ class EventFilter(TripFilter):
     def __init__(self, *args, **kwargs):
         super(EventFilter, self).__init__(*args, **kwargs)
         self.filters['name'].field.widget.attrs.update({'class': 'form-control', 'placeholder': 'Search event'})
+
+
+class ThingToDoFilter(TripFilter):
+    CATEGORIES = ThingToDo.category_options
+
+    name = django_filters.CharFilter(lookup_expr='icontains', label='Name')
+    type = django_filters.ChoiceFilter(label='Category', choices=CATEGORIES)
+
+    class Meta:
+        model = Restaurant
+        fields = ['name', 'type', 'avg_rating', 'ordering']
+
+    def __init__(self, *args, **kwargs):
+        super(ThingToDoFilter, self).__init__(*args, **kwargs)
+        self.filters['name'].field.widget.attrs.update({'class': 'form-control', 'placeholder': 'Search restaurant'})
+        self.filters['type'].field.widget.attrs.update({'class': 'form-select'})

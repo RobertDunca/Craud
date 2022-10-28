@@ -32,7 +32,7 @@ class Event(models.Model):
     long = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
     lat = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    reviews = ParentalManyToManyField(Review, blank=True)
+    reviews = models.ManyToManyField(Review, blank=True, related_name='events')
     avg_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True)
 
     active = models.BooleanField(default=True)
@@ -48,8 +48,6 @@ class Event(models.Model):
             avg = sum(ratings) / len(ratings)
             avg = round(avg, 1)
             self.avg_rating = avg
-        else:
-            self.avg_rating = 1
 
 
 class Restaurant(models.Model):
@@ -75,9 +73,10 @@ class Restaurant(models.Model):
 
     def clean(self):
         ratings = [r.rating for r in self.reviews.all()]
-        avg = sum(ratings) / len(ratings)
-        avg = round(avg, 1)
-        self.avg_rating = 1 if len(ratings) == 0 else avg
+        if len(ratings):
+            avg = sum(ratings) / len(ratings)
+            avg = round(avg, 1)
+            self.avg_rating = avg
 
     def __str__(self):
         return f'{self.name}'
@@ -95,8 +94,8 @@ class ThingToDo(models.Model):
     website_url = models.CharField(max_length=225, null=True, blank=True)
     contact_num = models.CharField(max_length=20, null=True, blank=True)
     address = models.CharField(max_length=50, null=True, blank=True)
-    long = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
-    lat = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
+    long = models.DecimalField(max_digits=8, decimal_places=6, null=True, blank=True)
+    lat = models.DecimalField(max_digits=8, decimal_places=6, null=True, blank=True)
     reviews = models.ManyToManyField(Review, blank=True)
     avg_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True)
 
@@ -106,9 +105,10 @@ class ThingToDo(models.Model):
 
     def clean(self):
         ratings = [r.rating for r in self.reviews.all()]
-        avg = sum(ratings) / len(ratings)
-        avg = round(avg, 1)
-        self.avg_rating = 1 if len(ratings) == 0 else avg
+        if len(ratings):
+            avg = sum(ratings) / len(ratings)
+            avg = round(avg, 1)
+            self.avg_rating = avg
 
     def __str__(self):
         return f'{self.name}'
