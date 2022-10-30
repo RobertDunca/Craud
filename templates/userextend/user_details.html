@@ -38,40 +38,21 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="card my-shadow lg-card rounded">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                                <div class="card-body">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <a class="btn my-btn" href="{% url 'update_user' request.user.id %}"
-                                                   role="button">
-                                                    <strong>Update profile</strong>
-                                                </a>
-                                            </div>
-                                            <div class="col-4">
-                                                <a class="btn my-btn" href="{% url 'user_events' request.user.id %}"
-                                                   role="button">
-                                                    <strong>See your events</strong>
-                                                </a>
-                                            </div>
-                                            <div class="col-4">
-                                                <a class="btn my-btn" href="{% url 'delete_user' request.user.id %}"
-                                                   role="button">
-                                                    <strong>Delete your account</strong>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="row">
+                                <div class="col center">
+                                    <a class="link" href="{% url 'update_user' request.user.id %}">
+                                        <strong>Update profile</strong>
+                                    </a>
+                                </div>
+                                <div class="col">
+                                    <a class="link" href="{% url 'user_events' request.user.id %}">
+                                        <strong>See your events</strong>
+                                    </a>
+                                </div>
+                                <div class="col">
+                                    <a class="link" href="{% url 'delete_user' request.user.id %}">
+                                        <strong>Delete account</strong>
+                                    </a>
                                 </div>
                             </div>
                         </div>
